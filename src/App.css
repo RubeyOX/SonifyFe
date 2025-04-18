@@ -1,0 +1,360 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+    --black-background: #130E18;
+    --pink-color: #E5CFFF;
+}
+
+/* Loading */
+
+.loading-layout {
+    width: 100vw;
+    height: 100vh;
+    padding: 60px;
+    position: relative;
+    background-color: black;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loading-layout .logo-container {
+    width: 400px;
+    margin: auto;
+    inset: 0;
+}
+
+.loading-layout .logo-container img {
+    width: 100%;
+}
+
+.loading-layout p {
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Loading  */
+
+/* Verify Email */
+
+.verifymail-layout {
+    width: 100vw;
+    height: 100vh;
+    padding: 60px;
+    position: relative;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.verifymail-layout .logo-container {
+    width: 250px;
+}
+
+.verifymail-layout .logo-container img {
+    width: 100%;
+}
+
+.verifymail-layout p {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.verifymail-layout button {
+    width: 350px;
+    margin-bottom: 60px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 15px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+    position: relative;
+}
+
+.verifymail-layout button:hover {
+    border: 1px solid #6C63FF;
+    background-color: white;
+    color: black;
+}
+
+.verifymail-layout button span {
+    position: absolute;
+    right: 20px;
+}
+
+.verifymail-layout .allright {
+    position: absolute;
+    bottom: 20px;
+    color: #868790;
+}
+
+/* Verify Email */
+
+/* Forgot Pass  */
+
+.changepass-layout {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    padding: 60px;
+    width: 100%;
+    min-height: 100dvh;
+}
+
+.changepass-container {
+    width: 600px;
+}
+
+.changepass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.changepass-container img {
+    width: 40%;
+}
+
+.changepass-container form {
+    width: 65%;
+}
+
+.changepass-container h1,
+.changepass-container h2 {
+    margin: 60px 0;
+    text-align: center;
+}
+
+.changepass-container input {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 15px;
+    background-color: rgba(17, 18, 24, 1);
+    padding: 10px 8px;
+    color: white;
+    border: none;
+}
+
+.changepass-container input:focus-within {
+    outline: none;
+}
+
+.changepass-container button {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 15px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+    position: relative;
+}
+
+.changepass-container p {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 13px;
+    color: rgba(229, 207, 255, 1);
+    cursor: pointer;
+}
+
+.changepass-container p svg {
+    font-size: 13px;
+}
+
+@media (max-width:576px) {
+    .changepass-layout {
+        padding: 40px;
+    }
+
+    .changepass-container img {
+        width: 50%;
+    }
+
+    .changepass-container h1 {
+        margin: 30px 0;
+        font-size: 26px;
+    }
+
+    .changepass-container form {
+        width: 100%;
+    }
+
+    .changepass-container form button {
+        padding: 12px 0;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width:380px) {
+    .changepass-container h1 {
+        font-size: 22px;
+    }
+}
+
+/* Forgot Pass */
+
+/* Header */
+
+.header-layout {
+    height: 74px;
+}
+
+.header-layout .header-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+}
+
+.header-layout img {
+    cursor: pointer;
+    height: 100%;
+}
+
+.header-layout .find-music {
+    width: 28%;
+    background-color: rgba(17, 18, 24, 1);
+    padding: 8px 14px;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    border-radius: 20px;
+}
+
+.header-layout .find-music svg {
+    font-size: 18px;
+}
+
+.header-layout .find-music .left-find-section {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+}
+
+.header-layout .find-music .left-find-section svg {
+    color: #7F8080;
+}
+
+.header-layout .find-music input {
+    flex: 1;
+    border: none;
+    margin-left: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+.header-layout .find-music input:focus-visible {
+    border: none;
+    outline: none;
+}
+
+.header-layout .find-music .right-find-random {
+    display: flex;
+    align-items: center;
+    color: var(--pink-color);
+    margin-left: 10px;
+    border-left: 1px solid white;
+    height: 24px;
+}
+
+.header-layout .find-music .right-find-random .material-symbols-outlined {
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.header-layout .user-logo-container .user-logo-layout {
+    display: flex;
+    align-items: center;
+}
+
+.header-layout .user-logo-container .user-logo-layout svg {
+    font-size: 28px;
+    color: var(--pink-color);
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.header-layout .user-logo-container .user-logo-layout .search-expand {
+    display: none;
+}
+
+.header-layout .user-logo-container .user-logo svg {
+    font-size: 40px;
+    background-color: #EADDFF;
+    border-radius: 50%;
+    color: #4F378A;
+}
+
+.header-layout .expand-find-container {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+}
+
+.header-layout .expand-find-container .find-music {
+    width: 100%;
+    border-radius: 0;
+}
+
+@media (max-width:576px) {
+    .header-layout .find-music {
+        display: none;
+    }
+
+    .header-layout .user-logo-container .user-logo-layout svg {
+        font-size: 25px;
+    }
+
+    .header-layout .user-logo-container .user-logo svg {
+        font-size: 32px;
+    }
+
+    .header-layout .user-logo-container .user-logo-layout svg:hover {
+        color: #E5CFFF;
+    }
+
+    .header-layout .expand-find-container .find-music {
+        display: flex;
+    }
+    .header-layout .expand-find{
+        display: block;
+    }
+    .header-layout .user-logo-container .user-logo-layout .search-expand {
+        display: block;
+    }
+}
+
+/* Header */

@@ -1,0 +1,210 @@
+.signup-layout {
+    width: 100%;
+    min-height: 100dvh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 50px;
+}
+
+.signup-container {
+    max-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.signup-container img {
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.signup-container h1 {
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    width: 100%;
+}
+
+.signup-container .form-container {
+    width: 100%;
+}
+
+.signup-container label {
+    width: 100%;
+    display: block;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.signup-container .form-container input {
+    width: 100%;
+    background-color: #111218;
+    border: none;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+}
+
+.signup-container .form-container input:focus-visible {
+    outline: 1px solid rgb(56, 57, 70);
+}
+
+.signup-container .form-container .forgot-pass {
+    text-align: right;
+    color: white;
+    margin: 12px 0;
+    cursor: pointer;
+    color: #868790;
+    text-decoration: underline;
+}
+
+.signup-container .form-container .or-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #868790;
+    margin-bottom: 18px;
+}
+
+.signup-container .form-container .or-container::before,
+.signup-container .form-container .or-container::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #868790;
+    margin-right: 5px;
+}
+
+.signup-container .form-container .or-container::after {
+    margin-left: 5px;
+    margin-right: unset;
+}
+
+.signup-container .form-container .signup-with {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 20px 0;
+    background-color: #111218;
+    outline: none;
+    border: 1px solid #6C63FF;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.signup-container .form-container .signup-with:hover {
+    background-color: #6C63FF;
+}
+
+.signup-container .form-container .remember-me-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #868790;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.signup-container .form-container .remember-me-container label {
+    margin: unset;
+    color: #868790;
+}
+
+.signup-container .form-container .remember-me-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-block;
+    width: 18px;
+    padding: unset;
+    height: 18px;
+    border: 2px solid #D395FF;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.signup-container .form-container .remember-me-container input[type="checkbox"]:checked {
+    background-color: white;
+}
+
+.signup-container .form-container .signup {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 20px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+}
+
+.signup-container .form-container .signup:hover {
+    border:1px solid #6C63FF;
+    background-color: white;
+    color: black;
+}
+.signup-container .form-container .create-account{
+    display: flex;
+    justify-content: space-between;
+    color: #868790;
+    align-items: center;
+    margin-bottom: 2px;
+}
+.signup-container .form-container .create-account .create-one{
+    display: flex;
+    cursor: pointer;
+    color: white;
+}
+
+.signup-container .form-container .create-account span svg{
+    width: 20px;
+    height: 20px;
+}
+.allright{
+    position: absolute;
+    bottom: 20px;
+    color: #868790;
+}
+
+@media (max-width:576px){
+    .signup-layout{
+        padding: 30px;
+    }
+    .signup-container label{
+        margin-top: 10px;
+        font-size: 15px;
+    }
+    .signup-container .form-container .forgot-pass{
+        font-size: 14px;
+        margin: 10px 0;
+    }
+    .signup-container .form-container .signup-with{
+        margin-bottom: 12px;
+        padding: 15px 0;
+    }
+    .signup-container .form-container .signup{
+        padding: 15px 0;
+        margin-bottom: 12px;
+    }
+    .signup-container .form-container .create-account{
+        margin-bottom: 30px;
+    } 
+    .allright{
+        font-size: 13px;
+    }
+}
+
+@media (max-width:1024px){
+    .signup-container img {
+        width: 60%;
+    }
+}

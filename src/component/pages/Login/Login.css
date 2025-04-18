@@ -1,0 +1,183 @@
+.login-layout {
+    width: 100vw;
+    min-height: 100dvh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 50px;
+}
+
+.login-container {
+    max-width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.login-container img {
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.login-container h1 {
+    color: white;
+    font-size: 32px;
+    text-align: center;
+}
+
+.login-container .form-container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-container label {
+    width: 100%;
+    display: block;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.login-container .form-container input {
+    width: 100%;
+    background-color: #111218;
+    border: none;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+}
+
+.login-container .form-container input:focus-visible {
+    outline: 1px solid rgb(56, 57, 70);
+}
+
+.login-container .form-container .forgot-pass {
+    text-align: right;
+    color: white;
+    margin: 12px 0;
+    cursor: pointer;
+    color: #868790;
+    text-decoration: underline;
+}
+
+.login-container .form-container .or-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #868790;
+    margin-bottom: 18px;
+}
+
+.login-container .form-container .or-container::before,
+.login-container .form-container .or-container::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #868790;
+    margin-right: 5px;
+}
+
+.login-container .form-container .or-container::after {
+    margin-left: 5px;
+    margin-right: unset;
+}
+
+.login-container .form-container .login-with {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 20px 0;
+    background-color: #111218;
+    outline: none;
+    border: 1px solid #6C63FF;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-container .form-container .login-with:hover {
+    background-color: #6C63FF;
+}
+
+.login-container .form-container .remember-me-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #868790;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.login-container .form-container .remember-me-container label {
+    margin: unset;
+    color: #868790;
+}
+
+.login-container .form-container .remember-me-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-block;
+    width: 18px;
+    padding: unset;
+    height: 18px;
+    border: 2px solid #D395FF;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.login-container .form-container .remember-me-container input[type="checkbox"]:checked {
+    background-color: white;
+}
+
+.login-container .form-container .login {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 20px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+}
+
+.login-container .form-container .login:hover {
+    border:1px solid #6C63FF;
+    background-color: white;
+    color: black;
+}
+.login-container .form-container .create-account{
+    display: flex;
+    justify-content: space-between;
+    color: #868790;
+    align-items: center;
+}
+.login-container .form-container .create-account .create-one{
+    display: flex;
+    cursor: pointer;
+    color: white;
+}
+
+.login-container .form-container .create-account span svg{
+    width: 20px;
+    height: 20px;
+}
+.allright{
+    position: absolute;
+    bottom: 20px;
+    color: #868790;
+    font-size: 14px;
+}
+
+@media (max-width:576px) {
+    .login-layout{
+        padding: 30px;
+    }
+}
