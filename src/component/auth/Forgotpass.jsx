@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
+import './Forgotpass.css'
 import EastIcon from '@mui/icons-material/East';
 export default function Forgotpass() {
   const email = useParams()

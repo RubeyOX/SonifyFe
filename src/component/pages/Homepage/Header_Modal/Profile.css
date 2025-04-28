@@ -1,0 +1,72 @@
+.profile-layout {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-layout .profile-container {
+    width: 35%;
+    padding: 15px;
+    border: 1px solid var(--purple-color);
+    border-radius: 15px;
+    background-color: black;
+}
+
+.profile-layout .profile-container .close-icon {
+    line-height: 0;
+    color: var(--purple-color);
+    cursor: pointer;
+}
+
+.profile-layout .profile-container .close-icon svg {
+    font-size: 30px;
+}
+
+.profile-layout .profile-container .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-layout .profile-container .user-info img {
+    width: 20%;
+    border: 3px solid #4B4056;
+    border-radius: 50%;
+}
+
+.profile-layout .profile-container .user-info b {
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.profile-layout .profile-container .user-info p {
+    color: #4B4056;
+    font-size: 13px;
+}
+
+.profile-layout .profile-container .top-artist-container,
+.profile-layout .profile-container .album-collection-container {
+    margin-top: 5%;
+}
+
+.profile-layout .profile-container .top-artist-container,
+.profile-layout .profile-container .album-collection-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-layout .profile-container .top-artist-container .top-artist-list .alice-carousel__stage,
+.profile-layout .profile-container .album-collection-container .album-collection-list .alice-carousel__stage{
+    display: flex;
+    gap: 10px;
+}
+.profile-layout .profile-container .top-artist-container .top-artist-list li,
+.profile-layout .profile-container .album-collection-container .album-collection-list li{
+    flex: 0 0 calc((100% / 4) - 10px );
+    overflow: hidden;
+}

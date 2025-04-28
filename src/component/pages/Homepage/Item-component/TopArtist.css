@@ -1,0 +1,18 @@
+.top-artist-item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+.top-artist-item img{
+    width: 100%;
+    border-radius: 50%;
+}
+.top-artist-item b{
+    color: white;
+    font-size: 13px;
+}
+.top-artist-item p{
+    color: #4B4056;
+    font-size: 13px;
+}
