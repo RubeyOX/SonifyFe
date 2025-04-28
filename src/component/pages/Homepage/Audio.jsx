@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Audio.css'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
@@ -10,9 +10,15 @@ import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import CropFreeIcon from '@mui/icons-material/CropFree';
-export default function Audio() {
+export default function Audio({ audioSrc }) {
+  const audioRef = useRef(null)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [musicButton, setMusicButton] = useState([])
   const [isPlay, setIsPlay] = useState(true)
+  const [volume,setVolume]=useState(100)
+  const thumbPercent = duration ? (currentTime / duration) * 100 : 0
   const musicButtonConfig = [
     { type: "random", Icon: ShuffleIcon },
     { type: "previous", Icon: SkipPreviousIcon },
@@ -22,12 +28,53 @@ export default function Audio() {
   ]
   const SelectMusicButton = (button) => {
     if (button == 'play') {
-      setIsPlay(p => !p)
+      setIsPlay(play => !play)
+      handlePlayPause()
     }
     setMusicButton(pre => pre.includes(button) ? pre.filter(item => item !== button) : [...pre, button])
   }
-  const countRef = useRef(0)
-  console.log(countRef)
+
+  const handleSeek = (e) => {
+    audioRef.current.currentTime = e.target.value
+    setCurrentTime(e.target.value)
+  }
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime)
+    setDuration(audioRef.current.duration)
+  }
+  const handlePlayPause = () => {
+    if (!isPlaying) {
+      audioRef.current.play()
+      setIsPlaying(true)
+    } else {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    }
+  }
+  const handleChangeVolumn = (e) => {
+    const newVolume=e.target.value / 100;
+    setVolume(e.target.value)
+    if(audioRef.current){
+      audioRef.current.volume=newVolume
+    }
+  }
+  function formatDuration(time) {
+    const minute = Math.floor(time / 60)
+    const second = Math.floor(time % 60)
+    const formatSecond = second.toString().padStart(2, "0")
+    return `${minute}:${formatSecond}`
+  }
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener("timeupdate", handleTimeUpdate)
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate)
+      }
+    }
+  }, [])
 
   return (
     <div className="audio-container">
@@ -53,18 +100,21 @@ export default function Audio() {
         </div>
         <div className="music-play-section">
           <div className="time-music">
-            <p className='time-played'>0:10</p>
-            <p className='max-time'>4:00</p>
+            <p className='time-played'>{formatDuration(currentTime)}</p>
+            <p className='max-time'>{formatDuration(duration)}</p>
           </div>
-          <input type="range" name="time" id="time" min={0} max={200} value={10} className='audio-range' />
+          <input style={{ "--thumb-percent": `${thumbPercent}%` }}
+            type="range" name="time" id="time" min="0" max={duration} value={currentTime} onChange={handleSeek} className='audio-range' />
+          <audio ref={audioRef} src={audioSrc}></audio>
         </div>
       </div>
       <div className="additional-control">
         <span className="device"><PhonelinkIcon /></span>
         <span className="volume"><VolumeUpIcon /></span>
-        <input type="range" name='volume' id='volumn' min={0} max={200} value={10} className='volumn-range' />
+        <input style={{"--sound-percent": `${volume}%`}}
+        type="range" name='volume' id='volume' min={0} max={100} value={volume} onChange={handleChangeVolumn} className='volumn-range' />
         <span className="zoom"><CropFreeIcon /></span>
-        <span class="material-symbols-rounded">
+        <span className="material-symbols-rounded">
           pip
         </span>
       </div>

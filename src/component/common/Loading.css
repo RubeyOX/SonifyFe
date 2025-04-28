@@ -1,0 +1,28 @@
+.loading-layout {
+    width: 100vw;
+    height: 100vh;
+    padding: 60px;
+    position: relative;
+    background-color: black;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loading-layout .logo-container {
+    width: 400px;
+    margin: auto;
+    inset: 0;
+}
+
+.loading-layout .logo-container img {
+    width: 100%;
+}
+
+.loading-layout p {
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}

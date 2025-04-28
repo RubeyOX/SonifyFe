@@ -1,0 +1,58 @@
+.verifymail-layout {
+    width: 100vw;
+    height: 100vh;
+    padding: 60px;
+    position: relative;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.verifymail-layout .logo-container {
+    width: 250px;
+}
+
+.verifymail-layout .logo-container img {
+    width: 100%;
+}
+
+.verifymail-layout p {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.verifymail-layout button {
+    width: 350px;
+    margin-bottom: 60px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 15px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+    position: relative;
+}
+
+.verifymail-layout button:hover {
+    border: 1px solid #6C63FF;
+    background-color: white;
+    color: black;
+}
+
+.verifymail-layout button span {
+    position: absolute;
+    right: 20px;
+}
+
+.verifymail-layout .allright {
+    position: absolute;
+    bottom: 20px;
+    color: #868790;
+}

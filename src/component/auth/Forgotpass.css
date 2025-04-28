@@ -1,0 +1,106 @@
+.changepass-layout {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    padding: 60px;
+    width: 100%;
+    min-height: 100dvh;
+}
+
+.changepass-container {
+    width: 600px;
+}
+
+.changepass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.changepass-container img {
+    width: 40%;
+}
+
+.changepass-container form {
+    width: 65%;
+}
+
+.changepass-container h1,
+.changepass-container h2 {
+    margin: 60px 0;
+    text-align: center;
+}
+
+.changepass-container input {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 15px;
+    background-color: rgba(17, 18, 24, 1);
+    padding: 10px 8px;
+    color: white;
+    border: none;
+}
+
+.changepass-container input:focus-within {
+    outline: none;
+}
+
+.changepass-container button {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    padding: 15px 0;
+    background-color: #6C63FF;
+    border-radius: 10px;
+    border: 1px solid #6C63FF;
+    cursor: pointer;
+    position: relative;
+}
+
+.changepass-container p {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 13px;
+    color: rgba(229, 207, 255, 1);
+    cursor: pointer;
+}
+
+.changepass-container p svg {
+    font-size: 13px;
+}
+
+@media (max-width:576px) {
+    .changepass-layout {
+        padding: 40px;
+    }
+
+    .changepass-container img {
+        width: 50%;
+    }
+
+    .changepass-container h1 {
+        margin: 30px 0;
+        font-size: 26px;
+    }
+
+    .changepass-container form {
+        width: 100%;
+    }
+
+    .changepass-container form button {
+        padding: 12px 0;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width:380px) {
+    .changepass-container h1 {
+        font-size: 22px;
+    }
+}

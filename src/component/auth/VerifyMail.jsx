@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './VerifyMail.css'
 export default function VerifyMail(props) {
   const typeVerify = props.type
   console.log(typeVerify)

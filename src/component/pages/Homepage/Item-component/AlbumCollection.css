@@ -1,0 +1,15 @@
+.album-collection-item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+.album-collection-item img{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
+.album-collection-item b{
+    color: white;
+    font-size: 13px;
+}

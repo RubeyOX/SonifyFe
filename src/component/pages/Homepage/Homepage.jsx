@@ -1,13 +1,13 @@
 import Aside from './Aside'
 import './Homepage.css'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useEffect, useState } from 'react';
 import InfoAside from './InfoAside';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Audio from './Audio';
-import Header from '../../Header';
+import Header from './Header';
+import CustomSlickSlider from '../../slider/CustomSlickSlider';
 export default function Homepage() {
   const [infoAside, setInfoAside] = useState('')
   const typeInfoAside = (type) => {
@@ -17,17 +17,35 @@ export default function Homepage() {
       setInfoAside('')
     }
   }
+  const [dataRecently, setDataRecently] = useState([{
+      id: '01',
+      music_cover: 'https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg',
+      name: 'Last month in yesdgsdgdsars'
+    },])
+  const [dataMadefor,setDataMadefor]=useState([{
+    id:'01',
+    collection_cover:'https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg',
+    name:'Morning',
+    from:'Something, ThesFLop',
+    more:["1","543","214","4","6"]
+  }])
+  const [dataTopTrending,setDataTopTrending]=useState([{
+    id:'01',
+    music_cover:'https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg',
+    name:"Last on the years",
+    musician:"Something"
+  }])
   return (
     <div className='homepage-container'>
       <div className="header">
-        <Header/>
+        <Header />
       </div>
       <div className="aside-collection-grid">
         <Aside openInfo={typeInfoAside} />
       </div>
       <div className="main-content">
         <div className="banner-container">
-          <img src="https://t4.ftcdn.net/jpg/04/91/09/71/360_F_491097109_NbqFULEQiM3V1VmO5suiDEEHDPrkkNCv.jpg" alt="banner" />
+          <img src="https://s3-alpha-sig.figma.com/img/721d/f9e3/a28bc69c03a9d359446f6135b7caf505?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=EQg6C~PQcHYZ5ZUvt88CmS9vvCRBP8OBSliGzq8yDqcWADDO24EMax9JaGPTCartZpTrWBA2ahY91EK3TTViW1cfPTqZVzJTu4NY1juoBsbT9ct-J8uoeuti0qRWA1g1QNxX2LSVaKICdt7PEkcObZH674Qjy0NtyPicS93eAUV6FCsShnjAikBSZfWnAnSjQRxDtBp0AEDK-wqBsAW0z2XtWqGjGOF28tKaRQN6t4dMX8~q12y4oIYVw4CyiJ9XfQhkztyGFqO5QvL94QLH00TqUYw~T2W8SYj1B4ibu-fnEmhDyGDrt2NQS9c3kZDT0zYe008fTr-34-4qk~-uzw__" alt="banner" />
           <div className="stop-show">
             <div className="choose-stop">
               <p>Don't show me again</p>
@@ -38,20 +56,7 @@ export default function Homepage() {
         <div className="recently-container">
           <p className="title-text">Recently played</p>
           <div className="music-list-container">
-            <div className="music-item">
-              <div className="left-music-item">
-                <img src="https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg" alt="ảnh cover nhạc" />
-                <b>Last month on years</b>
-              </div>
-              <div className="right-icon">
-                <div className="playing-icon">
-                  <GraphicEqIcon />
-                </div>
-                <div className="play-icon">
-                  <span onClick={() => setInfoAside('open-aside')} className="play-btn"><PlayArrowIcon /></span>
-                </div>
-              </div>
-            </div>
+            <CustomSlickSlider data={dataRecently} slidetoShow={6} typeCarousel={'recently'} openAside={typeInfoAside} />
           </div>
         </div>
         <div className="suggest-container">
@@ -83,14 +88,7 @@ export default function Homepage() {
               <p className='show-more'>Show more</p>
             </div>
             <div className="music-item-list">
-              <div className="music-item">
-                <img src="https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg" alt="ảnh cover nhạc" />
-                <div className="info-music-item">
-                  <h4>Morning</h4>
-                  <p>From Something, TheFlop</p>
-                  <p>+99 more</p>
-                </div>
-              </div>
+              <CustomSlickSlider data={dataMadefor} slidetoShow={6} typeCarousel={'madefor'}/>
             </div>
           </div>
         </div>
@@ -100,14 +98,7 @@ export default function Homepage() {
             <p className='show-more'>Show more</p>
           </div>
           <div className="music-list-container">
-            <div onClick={() => setInfoAside('open-aside')} className="music-item">
-              <img src="https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg" alt="ảnh cover nhạc" />
-              <div className="info-music">
-                <b>Last month on years</b>
-                <p>Something</p>
-                <p>Idk what is that </p>
-              </div>
-            </div>
+            <CustomSlickSlider data={dataTopTrending} slidetoShow={8} typeCarousel={'toptrending'}/>
           </div>
         </div>
       </div>
@@ -115,7 +106,7 @@ export default function Homepage() {
         <InfoAside closeInfo={typeInfoAside} />
       </div>
       <div className="audio-grid">
-        <Audio/>
+        <Audio audioSrc='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' />
       </div>
     </div>
   )
