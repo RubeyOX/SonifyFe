@@ -416,7 +416,7 @@
     gap: 10px;
 }
 .homepage-container .trending-container .music-list-container li{
-    flex: 0 0 calc((100% / 8) -10px );
+    flex: 0 0 calc((100% / 8) - 10px );
     overflow: hidden;
 }
 .trending-container .music-list-container .music-item {
