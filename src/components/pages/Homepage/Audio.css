@@ -3,8 +3,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 10px;
-    padding-top: 5px;
-    height: 100px;
+    padding-top: 10px;
+    height: 70px;
 }
 
 /* audio info  */
@@ -29,12 +29,12 @@
 
 .audio-container .audio-info .info-music .name-music {
     color: white;
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .audio-container .audio-info .info-music .musician {
-    color: rgba(134, 135, 144, 1);
-    font-size: 14px;
+    color: var(--Secondary-neutral-accent);
+    font-size: 0.8rem;
 }
 
 .audio-container .audio-info .info-music p {
@@ -80,6 +80,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 30px;
+}
+
+.button-section *{
+    height: 100%;
+    aspect-ratio: 1/1;
+    padding: 0 !important; 
+
 }
 
 .audio-container .playback-control .button-section svg:hover,
@@ -87,19 +95,23 @@
     color: rgba(211, 149, 255, 1);
 
 }
-
 .audio-container .playback-control .button-section .play svg {
+    color: black;
+
+}
+.audio-container .playback-control .button-section .play  {
     background-color: white;
     color: black;
     padding: 5px;
     border-radius: 50%;
-    font-size: 40px;
+    height: 100%;
 }
 
 .playback-control .music-play-section .time-music {
     display: flex;
     color: rgba(134, 135, 144, 1);
     justify-content: space-between;
+    font-size: 0.8rem;
 }
 
 .playback-control .music-play-section .audio-range {

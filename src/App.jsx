@@ -2,18 +2,19 @@ import { Suspense, lazy } from 'react'
 import './App.css'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import "@fontsource/montserrat";
+import "./components/colors/palette.css"
 
-const MainLayout = lazy(() => import("./component/MainLayout"))
-const SigninLayout=lazy(()=>import("./component/SigninLayout"))
-const Private = lazy(() => import("./component/Private"))
-const Homepage = lazy(() => import("./component/pages/Homepage/Homepage"))
-const User = lazy(() => import("./component/pages/Homepage/User"))
-const Loading = lazy(() => import("./component/common/Loading"))
-const Login = lazy(() => import("./component/auth/Login/Login"))
-const Signup = lazy(()=>import("./component/auth/Signup/Signup"))
-const Verifyemail=lazy(()=>import('./component/auth/VerifyMail'))
-const ForgotPass=lazy(()=>import('./component/auth/Forgotpass'))
-const NotFound = lazy(() => import("./component/common/NotFound"))
+const MainLayout = lazy(() => import("./components/MainLayout"))
+const SigninLayout=lazy(()=>import("./components/SigninLayout"))
+const Private = lazy(() => import("./components/Private"))
+const Homepage = lazy(() => import("./components/pages/Homepage/Homepage"))
+const User = lazy(() => import("./components/pages/Homepage/User"))
+const Loading = lazy(() => import("./components/common/Loading"))
+const Login = lazy(() => import("./components/auth/Login/Login"))
+const Signup = lazy(()=>import("./components/auth/Signup/Signup"))
+const Verifyemail=lazy(()=>import('./components/auth/VerifyMail'))
+const ForgotPass=lazy(()=>import('./components/auth/Forgotpass'))
+const NotFound = lazy(() => import("./components/common/NotFound"))
 const Router = createBrowserRouter([
   {
     path: '/',

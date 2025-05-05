@@ -130,10 +130,10 @@
     top: 120%;
     right: 10px;
     padding: 16px 12px;
-    border-radius: 15px;
-    background-color: black;
-    border: 1px solid var(--purple-color);
-    box-shadow: 0 0 10px var(--pink-color);
+    border-radius: 10px;
+    background-color: var(--Dark-shade);
+    /* border: 1px solid var(?--purple-color); */
+    /* box-shadow: 0 0 10px var(--pink-color); */
     color: white;
     z-index: 10;
 }

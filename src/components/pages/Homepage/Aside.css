@@ -11,10 +11,11 @@
 /* expand */
 
 .aside-collection .expand-title {
-    width: 368px;
+    width: 350px;
     padding: 20px 8px;
     color: var(--pink-color);
     border-radius: 20px;
+    transition: 0.2s ease-out;
 }
 
 .aside-collection .expand-title .collection-title-container{
@@ -102,9 +103,11 @@
 /* .collapse */
 
 .aside-collection .collapse-title {
-    width: 79px;
+    width: 60px;
     padding: 20px 8px;
     border-radius: 20px;
+    transition: 0.2s ease-in;
+
 }
 
 .aside-collection .collapse-title .collection-title-container {
