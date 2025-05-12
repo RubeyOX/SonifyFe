@@ -3,17 +3,18 @@ import './InfoAside.css'
 import ListIcon from '@mui/icons-material/List';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-export default function InfoAside({ closeInfo }) {
+export default function InfoAside({ trackData, closeInfo, isOpen }) {
+
     return (
-        <div className='info-aside'>
+        <div className= {"info-aside " + (isOpen ? 'open' : '')}>
             <div onClick={() => closeInfo('')} className="close-info"><ExitToAppIcon />
                 <p>Something</p>
             </div>
-            <img src="https://bloganchoi.com/wp-content/uploads/2021/12/chill-la-gi-nghe-nhac-chill-4.jpg" alt="ảnh cover nhạc" />
+            <img src={trackData?.cover_image} alt="ảnh cover nhạc" />
             <div className="nameInfo-container">
                 <div className="left-name">
-                    <h3>Last month on years</h3>
-                    <p>Something</p>
+                    <h3>{trackData?.title} </h3>
+                    <p>{trackData?.primary_artist_name} </p>
                 </div>
                 <ControlPointIcon />
             </div>

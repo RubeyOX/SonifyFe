@@ -1,3 +1,7 @@
+.info-aside-grid.open{
+    display: block;
+}
+
 /* close info aside */
 
 .info-aside .close-info{
@@ -14,6 +18,7 @@
 
 .info-aside img{
     width: 100%;
+    aspect-ratio: 1/1;
 }
 
 /* song name  */

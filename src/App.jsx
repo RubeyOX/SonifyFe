@@ -15,6 +15,7 @@ const Signup = lazy(()=>import("./components/auth/Signup/Signup"))
 const Verifyemail=lazy(()=>import('./components/auth/VerifyMail'))
 const ForgotPass=lazy(()=>import('./components/auth/Forgotpass'))
 const NotFound = lazy(() => import("./components/common/NotFound"))
+const VerifyEmailPortal = lazy(() => import("./components/auth/verifyEmailPortal"))
 const Router = createBrowserRouter([
   {
     path: '/',
@@ -74,6 +75,22 @@ const Router = createBrowserRouter([
         element:(
           <Suspense fallback={<Loading/>}>
             <Signup/>
+          </Suspense>
+        )
+      },
+      {
+        path: 'verifyemail/:email',
+        element:(
+          <Suspense fallback={<Loading/>}>
+            <Verifyemail/>
+          </Suspense>
+        )
+      },
+      {
+        path: 'verify/t/:token',
+        element:(
+          <Suspense fallback={<Loading/>}>
+            <VerifyEmailPortal/>
           </Suspense>
         )
       },

@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import './VerifyMail.css'
+import authApi from '../../api/authenticationAPI'
 export default function VerifyMail(props) {
   const typeVerify = props.type
   console.log(typeVerify)
+  const {email} = useParams();
+  useEffect(() => {
+    if(localStorage.getItem('emailVerifyRequested') == 'true'){
+      return;
+    }else{
+      localStorage.setItem('emailVerifyRequested', true);
+    }
+    console.log(email);
+    authApi.requestVerification(email);
+  },[])
   return (
     <div className='verifymail-layout'>
       <div className="logo-container">
@@ -17,7 +29,7 @@ export default function VerifyMail(props) {
           If you encounter any issues, feel free to contact our customer service team.
         </p>
       }
-      <button>Resend Email <span>500</span></button>
+      <button disabled>Resend Email <span>500</span></button>
       <p className='allright'>All rights reserved @ Snoify,2025</p>
     </div>
   )

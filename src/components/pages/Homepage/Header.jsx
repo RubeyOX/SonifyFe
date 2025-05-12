@@ -6,6 +6,9 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import './Header.css'
 import Profile from './Header_Modal/Profile';
+import { useAuth } from '../../../utils/AuthenticationUtils';
+import authApi from '../../../api/authenticationAPI';
+
 export default function Header() {
   const navigate = useNavigate()
   const [openProfile,setOpenProfile]=useState(true)
@@ -16,6 +19,23 @@ export default function Header() {
     } else (
       setExpandFind('')
     )
+  }
+  const { setToken, token: authToken } = useAuth();
+  const logout = async()=>{
+    try {
+      // let s = await authApi.logout(authToken);
+      // console.log("Logout response: ", s);
+      // if(s.success){
+        setToken(null);
+        console.log("Logout success.");
+        navigate("/login");
+      // }else{
+        // console.log("Logout failed.");
+        // console.log(authToken);
+      // }      
+    } catch (e) {
+      console.log("Error: ", e);
+    }
   }
   return (
     <div className='header-layout'>
@@ -43,7 +63,7 @@ export default function Header() {
                 <p>Support</p>
                 <p>Settings</p>
                 <div className="line"></div>
-                <p>Log Out</p>
+                <p onClick={()=>{logout()}}>Log Out</p>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@
     grid-template-rows:auto 1fr;
     gap: 10px;
     color: white;
+    cursor: pointer;
 }
 .n-playlist-item .playlist-cover{
     width: 100%;
