@@ -1,0 +1,103 @@
+.modal-addcontent-layout{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-addcontent-layout .exit{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.modal-addcontent-layout .exit:hover{
+    background-color: lightcyan;
+}
+.modal-addcontent-layout .modal-addcontent-container{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 6px;
+}
+.modal-addcontent-layout .modal-addcontent-container .upload-img{
+    width: 300px;
+    aspect-ratio: 1;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: black;
+}
+.modal-addcontent-layout .modal-addcontent-container .upload-img img{
+    width: 100%;
+    aspect-ratio: 1;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+    position: relative;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section label{
+    font-size: 14px;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section input, .modal-addcontent-layout .modal-addcontent-container .input-audio{
+    width: 100%;
+    padding: 5px 10px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+.modal-addcontent-layout .modal-addcontent-container .input-audio{
+    color: black;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section textarea{
+    height: 100px;
+    background-color: lightgray;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal{
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    width: 100%;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal p{
+    background-color: white;
+    padding: 5px 10px;
+    border-bottom: 1px solid black;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.modal-addcontent-layout .modal-addcontent-container .note{
+    opacity: 0.4;
+    font-size: 11px;
+    font-style: italic;
+}
+.modal-addcontent-layout .modal-addcontent-container button{
+    margin-top: 10%;
+    width: 100%;
+    padding: 10px 0;
+    background-color: var(--purple-color);
+    color: white;
+    cursor: pointer;
+    border: unset;
+}
+.modal-addcontent-layout .modal-addcontent-container button:hover{
+    opacity: 0.8;
+}

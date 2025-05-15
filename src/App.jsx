@@ -5,15 +5,14 @@ import "@fontsource/montserrat";
 
 const MainLayout = lazy(() => import("./component/MainLayout"))
 const SigninLayout=lazy(()=>import("./component/SigninLayout"))
-const Private = lazy(() => import("./component/Private"))
 const Homepage = lazy(() => import("./component/pages/Homepage/Homepage"))
-const User = lazy(() => import("./component/pages/Homepage/User"))
 const Loading = lazy(() => import("./component/common/Loading"))
 const Login = lazy(() => import("./component/auth/Login/Login"))
 const Signup = lazy(()=>import("./component/auth/Signup/Signup"))
 const Verifyemail=lazy(()=>import('./component/auth/VerifyMail'))
 const ForgotPass=lazy(()=>import('./component/auth/Forgotpass'))
 const NotFound = lazy(() => import("./component/common/NotFound"))
+const Dashboard=lazy(()=>import('./component/pages/Dashboard/Dashboard'))
 const Router = createBrowserRouter([
   {
     path: '/',
@@ -36,24 +35,6 @@ const Router = createBrowserRouter([
           </Suspense>
         )
       },
-      {
-        path: '/',
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Private />
-          </Suspense>
-        ),
-        children: [
-          {
-            path: 'user',
-            element: (
-              <Suspense fallback={<Loading />}>
-                <User />
-              </Suspense>
-            )
-          },
-        ]
-      }
     ],
   },{
     path:'/',
@@ -64,7 +45,6 @@ const Router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Login />
-
           </Suspense>
         )
       },
@@ -90,6 +70,14 @@ const Router = createBrowserRouter([
         element:(
           <Suspense fallback={<Loading/>}>
             <ForgotPass/>
+          </Suspense>
+        )
+      },
+      {
+        path:'dashboard',
+        element:(
+          <Suspense fallback={<Loading/>}>
+            <Dashboard/>
           </Suspense>
         )
       }
