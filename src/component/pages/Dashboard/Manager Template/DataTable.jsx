@@ -6,18 +6,20 @@ import { useAuth } from '../../../../utils/AuthenticationUtils';
 import MusicAPI from '../../../../api/musicAPI';
 export default function DataTable() {
     const {tableTags}=useContext(ThemeContext)
-    const {token}=useAuth()
+    const {token,user}=useAuth()
+    const authToken=token
     useEffect(()=>{
         const ListUserData=async()=>{
+            if (!authToken) return;
             try{
-                const response=await MusicAPI.listUserMusic(token)
+                const response=await MusicAPI.listUserMusic({},authToken)
                 console.log(response)
             }catch(err){
                 console.error(err)
             }
         }
         ListUserData()
-    })
+    },[authToken])
     return (
         <div className='data-list-container'>
             <table>

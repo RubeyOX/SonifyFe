@@ -10,7 +10,7 @@ export default function Aside_Dashboard({ userType}) {
     <div className="asidedb-layout">
       <div className="asidedb-logo">
         <img src="/Sonify-logo.png" alt="logo" />
-        <p className="user-name">{userType?.username == "admin" ? "Admin" : userType.username}</p>
+        <p className="user-name">{userType?.role == "admin" ? "Admin" : userType?.username}</p>
       </div>
       {userType.role == 'admin' ?
         <div className="aisdedb-navigation-list">
