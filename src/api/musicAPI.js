@@ -14,7 +14,7 @@ const getFullStreamUrl = (playbackUrl) => {
     if (playbackUrl.startsWith('http://') || playbackUrl.startsWith('https://')) {
         return playbackUrl;
     }
-    const backendOrigin = 'http://localhost:3000'; // Or your actual backend origin
+    const backendOrigin = 'http://sonify.onrender.com'; // Or your actual backend origin
     try {
         if (playbackUrl.startsWith('/api/v1/music/stream/')) {
              return `${backendOrigin}${playbackUrl}`;
@@ -132,7 +132,7 @@ const MusicAPI = {
                 config.headers = { Authorization: `Bearer ${authToken}` };
             }
             // Assuming album routes are separate, or adjust base URL
-            const albumApiClient = axios.create({ baseURL: 'http://localhost:3000/api/v1/albums' });
+            const albumApiClient = axios.create({ baseURL: 'http://sonify.onrender.com/api/v1/albums' });
             const response = await albumApiClient.get(`/${albumId}/music`, config);
 
             if (response.data?.data?.music) { // Backend returns { album: {}, music: [], pagination: {} }
