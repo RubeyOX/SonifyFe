@@ -9,10 +9,9 @@
 
 .profile-layout .profile-container {
     width: 35%;
-    padding: 15px;
-    border: 1px solid var(--purple-color);
+    padding: 20px;
     border-radius: 15px;
-    background-color: black;
+    background-color: var(--Dark-shade);
 }
 
 .profile-layout .profile-container .close-icon {
