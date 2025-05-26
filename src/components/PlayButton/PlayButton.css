@@ -26,3 +26,29 @@
     cursor: pointer;
 
 }
+
+
+
+
+.addfav-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 10px;
+    aspect-ratio: 1/1;
+    width: fit-content;
+}
+
+.addfav-icon .addfav-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--Secondary-neutral-accent);
+    aspect-ratio: 1/1;
+    padding: 2px;
+    cursor: pointer;
+    background-color: var(--Light-shade);
+    border-radius: 100px;
+    box-shadow: 0px 0px 5px 2px #e5cfff42;
+    transition: 0.1s ease-in-out;
+}

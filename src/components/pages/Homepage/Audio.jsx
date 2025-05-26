@@ -10,8 +10,8 @@ import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import CropFreeIcon from '@mui/icons-material/CropFree';
+import AddToFavBtn from '../../PlayButton/AddToFavButton'; // Using your button component
 
-//Presentational Component - recieves control as props
 const Audio = ({
     trackData,
     isPlaying,
@@ -29,29 +29,60 @@ const Audio = ({
     previousTrack,
     toggleShuffle,
     cycleRepeatMode,
+    onOpenInfoAside, // Prop from Homepage
+    onAddToLibraryClick, // Specific handler from Homepage for the current track
+    currentTrackIsInLibrary // Boolean from Homepage
 }) => {
 
     const formatDuration = (time) => {
+        if (isNaN(time) || time === Infinity || time < 0) return "0:00";
         const minute = Math.floor(time / 60);
         const second = Math.floor(time % 60);
         const formatSecond = second.toString().padStart(2, "0");
         return `${minute}:${formatSecond}`;
     };
 
-    const thumbPercent = duration ? (currentTime / duration) * 100 : 0;
+    const thumbPercent = duration && duration > 0 ? (currentTime / duration) * 100 : 0;
+
+    const handleAddToLibrary = (e) => {
+        if (trackData && onAddToLibraryClick) {
+            e.stopPropagation();
+            onAddToLibraryClick(trackData, 'music');
+        }
+    };
+
+    const handleOpenInfo = (e) => {
+        if (trackData && onOpenInfoAside) {
+            e.stopPropagation();
+            onOpenInfoAside(); // Homepage's openInfoAside expects the track, which is currentTrack in player
+        }
+    }
 
     return (
         <div className="audio-container">
             <div className="audio-info">
-                <img src={trackData?.cover_image || "/SonifyIcon.png"} alt="cover image" />
+                <img
+                    src={trackData?.cover_image || "/SonifyIcon.png"}
+                    alt={trackData?.title || "No track"}
+                    onClick={handleOpenInfo} // Make cover clickable to open info aside
+                    style={{ cursor: trackData ? 'pointer' : 'default' }}
+                />
                 <div className="info-music">
                     <p className="name-music">{trackData?.title || "No track selected"}</p>
                     <p className="musician">{trackData?.primary_artist_name || "Unknown"}</p>
                 </div>
-                <span className="add"><AddCircleOutlineIcon /></span>
+                {trackData && onAddToLibraryClick && (
+                     <div style={{ marginLeft: '10px' }}> {/* Wrapper for consistent styling/spacing */}
+                        <AddToFavBtn
+                            onClickHandler={handleAddToLibrary}
+                            isInLibraryState={currentTrackIsInLibrary}
+                        />
+                    </div>
+                )}
             </div>
             <div className="playback-control">
-                <div className="button-section">
+                {/* ... Your existing playback controls ... */}
+                 <div className="button-section">
                     <span onClick={toggleShuffle} className={shuffle ? 'shuffle active' : 'shuffle'}>
                         <ShuffleIcon />
                     </span>
@@ -75,36 +106,27 @@ const Audio = ({
                     </div>
                     <input
                         style={{ "--thumb-percent": `${thumbPercent}%` }}
-                        type="range"
-                        name="time"
-                        id="time"
-                        min="0"
-                        max={duration}
-                        value={currentTime}
+                        type="range" name="time" id="time" min="0"
+                        max={duration || 0} // Ensure max is not NaN
+                        value={currentTime || 0} // Ensure value is not NaN
                         onChange={(e) => onSeek(parseFloat(e.target.value))}
                         className='audio-range'
+                        disabled={!trackData}
                     />
                 </div>
             </div>
             <div className="additional-control">
-                <span className="device"><PhonelinkIcon /></span>
+                {/* ... Your existing additional controls ... */}
+                 <span className="device"><PhonelinkIcon /></span>
                 <span className="volume" onClick={toggleMute}><VolumeUpIcon /></span>
                 <input
                     style={{ "--sound-percent": `${volumeLevel * 100}%` }}
-                    type="range"
-                    name='volume'
-                    id='volume'
-                    min={0}
-                    max={1}
-                    step={0.01}
+                    type="range" name='volume' id='volume' min={0} max={1} step={0.01}
                     value={volumeLevel}
                     onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
                     className='volumn-range'
                 />
                 <span className="zoom"><CropFreeIcon /></span>
-                <span className="material-symbols-rounded">
-                    pip
-                </span>
             </div>
         </div>
     );
