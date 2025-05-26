@@ -1,0 +1,49 @@
+.banner-container {
+  width: 100%;
+  position: relative;
+}
+.banner-container img {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+}
+.banner-container .stop-show {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 200px;
+  display: flex;
+  justify-content: end;
+}
+.banner-container .stop-show .choose-stop {
+  border-radius: 20px;
+  background-color: rgb(92, 92, 95);
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  cursor: pointer;
+  position: absolute;
+  color: white;
+  font-size: 12px;
+}
+.banner-container .stop-show .choose-stop svg {
+  background-color: rgb(66, 66, 66);
+  font-size: 25px;
+  padding: 3px 5px;
+  border-radius: 45%;
+  opacity: 0.6;
+}
+.banner-container .stop-show .choose-stop p {
+  margin-right: 10px;
+  padding-left: 10px;
+  display: none;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 11px;
+}
+.banner-container .stop-show .choose-stop:hover p {
+  display: block;
+}
+.banner-container .stop-show .choose-stop:hover svg {
+  opacity: 1;
+}

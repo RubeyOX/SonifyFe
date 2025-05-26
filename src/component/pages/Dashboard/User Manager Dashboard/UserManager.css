@@ -1,0 +1,83 @@
+.user-manager-container{
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* header  */
+.user-manager-container .user-manager-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-manager-container .user-manager-header span{
+    line-height: 0;
+    cursor: pointer;
+}
+.user-manager-container .user-manager-header span:hover svg{
+    color: var(--purple-color);
+}
+
+/* filter / find  */
+
+.user-manager-container .filter-user-container h4{
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+.user-manager-container .filter-user-container .filter-option-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 5%;
+    align-items: stretch;
+}
+.user-manager-container .filter-user-container .filter-option-container .left-filter{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.user-manager-container .filter-user-container .filter-option-container .left-filter button{
+    padding: 12px 35px;
+    background-color: var(--light-gray-background);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.user-manager-container .filter-user-container .filter-option-container .left-filter button:hover{
+    opacity: 0.8;
+}
+.filter-user-container .filter-option-container .right-filter span{
+    line-height: 0;
+}
+.user-manager-container .filter-user-container .filter-option-container .right-filter{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+.user-manager-container .filter-user-container .filter-option-container .right-filter .search-section{
+    background-color: var(--search-color);
+    padding: 0 10px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 5px;
+    flex: 1;
+}
+
+.filter-user-container .filter-option-container .right-filter .search-section svg{
+    font-size: 20px;
+    opacity: 0.6;
+}
+.filter-user-container .filter-option-container .right-filter .search-section input{
+    width: 100%;
+    background-color: transparent;
+    border: unset;
+    color: white;
+}
+.filter-user-container .filter-option-container .right-filter .search-section input:focus-within{
+    outline: unset;
+}

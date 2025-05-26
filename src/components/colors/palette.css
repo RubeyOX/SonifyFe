@@ -1,0 +1,18 @@
+:root{
+    --Primary-background-color: #09030D;
+    --Primary-text-color: #FFF;
+    --Primary-graphic-accent: #D395FF;
+
+    --Secondary-highlight: #E5CFFF;
+    --Secondary-neutral-accent: #868790;
+    --Secondary-background: #130E18;
+
+    --Tertiary-button: #6C63FF;
+    --Tertiary-bright-accent: #F2E6FF;
+    --Tertiary-background: #1B1D28;
+
+    --Light-shade: #D7D8E5;
+    --Dark-shade: #111218;
+    --Graphic-variant: #BB85FF;
+
+}

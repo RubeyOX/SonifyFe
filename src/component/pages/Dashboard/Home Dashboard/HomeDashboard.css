@@ -1,0 +1,60 @@
+.homedb-container{
+    color: white;
+    padding: 10px;
+}
+.homedb-container .homedb-header-container{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 10px;
+    flex-wrap: wrap;
+}
+
+.homedb-container .homedb-header-container .search-container{
+    width: 25%;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background-color: rgba(17, 18, 24, 1);
+    cursor: pointer;
+}
+.homedb-container .homedb-header-container .search-container input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    opacity: 0.6;
+}
+.homedb-container .homedb-header-container span{
+    line-height: 0;
+    cursor: pointer;
+}
+.homedb-container .homedb-header-container span:hover svg{
+    color: var(--purple-color);
+}
+.homedb-container .homedb-header-container .search-container svg{
+    opacity: 0.6;
+}
+.homedb-container .homedb-header-container .search-container input:focus-visible{
+    outline: none;
+    opacity: 1;
+}
+
+
+
+
+.homedb-container .revenue-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.homedb-container .revenue-container .circle-revenue,.homedb-container .revenue-container .linebar-revenue,.homedb-container .revenue-container .line-streaming{
+    background-color: var(--light-gray-background);
+    border-radius: 10px;
+    flex: 1;
+}
