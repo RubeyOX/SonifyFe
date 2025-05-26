@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import Cookies from 'js-cookie';
-import authApi from '../api/authenticationAPI'; 
+import authApi from '../api/authenticationAPI';
 
 const AuthContext = createContext(null);
 
@@ -31,7 +31,7 @@ export const AuthenticationProvider = ({
     try {
       const data = await authApi.getMe(currentToken);
 
-      if (!data.success) { 
+      if (!data.success) {
         throw new Error(data.message || 'Failed to fetch user details');
       }
 
@@ -49,18 +49,18 @@ export const AuthenticationProvider = ({
     } finally {
       setIsLoading(false);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const currentTokenInCookie = Cookies.get(cookieName);
     if (currentTokenInCookie) {
-      if (currentTokenInCookie !== token) { 
-          setTokenState(currentTokenInCookie); 
+      if (currentTokenInCookie !== token) {
+        setTokenState(currentTokenInCookie);
       }
       fetchUser(currentTokenInCookie);
     } else {
-      if (token) { 
-        setTokenState(null); 
+      if (token) {
+        setTokenState(null);
       }
       setUser(null);
       setUserId(null);
@@ -71,12 +71,12 @@ export const AuthenticationProvider = ({
   const setAuthToken = useCallback(async (newToken) => {
     if (newToken) {
       Cookies.set(cookieName, newToken, cookieOptions);
-      setTokenState(newToken); 
+      setTokenState(newToken);
     } else {
       const currentToken = Cookies.get(cookieName);
       if (currentToken) {
         try {
-          await authApi.logout(currentToken); 
+          await authApi.logout(currentToken);
         } catch (logoutError) {
           console.error("API Logout failed:", logoutError.message || logoutError);
         }
@@ -102,8 +102,8 @@ export const AuthenticationProvider = ({
     error,
     setToken: setAuthToken,
     getToken: getAuthToken,
-    clearToken: () => setAuthToken(null), 
-    isAuthenticated: !!token && !!user, 
+    clearToken: () => setAuthToken(null),
+    isAuthenticated: !!token && !!user,
   }), [token, user, userId, isLoading, error, setAuthToken, getAuthToken]);
 
   return (

@@ -9,6 +9,9 @@
     --black-background: #130E18;
     --pink-color: #E5CFFF;
     --purple-color:#D395FF;
+    --dark-black-background:#09030D;
+    --light-gray-background:#1B1D28;
+    --search-color:rgba(17, 18, 24, 1);
 }
 img{
     object-fit: cover;

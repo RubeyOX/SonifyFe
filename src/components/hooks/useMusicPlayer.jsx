@@ -47,7 +47,6 @@ const useMusicPlayer = () => {
     itemType: null,
     actions: [],
   });
-
   // --- Refs ---
   const audioContextRef = useRef(null);
   const audioElementRef = useRef(null);

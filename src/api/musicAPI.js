@@ -1,32 +1,24 @@
-// --- START OF FILE musicAPI.js --- (Updated)
 
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:3000/api/v1/music';
-// STREAM_BASE_URL is not strictly needed here if playbackUrl is absolute or correctly relative from backend
-// const STREAM_BASE_URL = 'http://localhost:3000/api/v1/music';
+const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 
 const apiClient = axios.create({
-    baseURL: API_BASE_URL,
+  baseURL: API_BASE_URL,
 });
 
 // Helper to ensure playback URLs are absolute if they are relative
 const getFullStreamUrl = (playbackUrl) => {
     if (!playbackUrl) return '';
-    // If backend already provides full URL, no need to change it
     if (playbackUrl.startsWith('http://') || playbackUrl.startsWith('https://')) {
         return playbackUrl;
     }
-    // Assuming playbackUrl is like "/api/v1/music/stream/someId" or just "/stream/someId"
-    // And your web app is served from (e.g.) http://localhost:5173
-    // We need to construct the full path to the backend stream endpoint
     const backendOrigin = 'http://localhost:3000'; // Or your actual backend origin
     try {
-        // If playbackUrl is already a full path from the API root like "/api/v1/music/stream/id"
         if (playbackUrl.startsWith('/api/v1/music/stream/')) {
              return `${backendOrigin}${playbackUrl}`;
         }
-        // If playbackUrl is relative to the music API base like "/stream/id"
         const url = new URL(playbackUrl, API_BASE_URL); // This forms http://localhost:3000/api/v1/music/stream/id
         return url.toString();
     } catch (e) {
@@ -34,7 +26,6 @@ const getFullStreamUrl = (playbackUrl) => {
         return `${backendOrigin}${playbackUrl}`; // Fallback for very relative paths
     }
 };
-
 
 const MusicAPI = {
     listNewMusic: async ({ limit = 12, page = 1 } = {}, authToken) => { // Added page
@@ -159,4 +150,3 @@ const MusicAPI = {
 };
 
 export default MusicAPI;
-// --- END OF FILE musicAPI.js ---
