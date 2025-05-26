@@ -159,7 +159,7 @@ const MusicAPI = {
         throw error
     }
   },
-  listUserMusic:async(limit=10,offset=0,sortBy,sortOrder="desc",authToken)=>{
+  listUserMusic:async({limit=10,offset=0,sortBy,sortOrder="desc"}={},authToken)=>{
     try {
       const config = { params: { limit, offset, sortOrder } };
       if (sortBy) config.params.sortBy = sortBy;
