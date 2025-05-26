@@ -1,0 +1,86 @@
+.item-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px; 
+    overflow: hidden; 
+    box-sizing: border-box;
+}
+
+.item-carousel {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    gap: 15px; 
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+
+    box-sizing: border-box;
+}
+
+.item-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.item-carousel > * { 
+    flex-shrink: 0;
+    scroll-snap-align: start; 
+}
+
+
+.carousel-controller {
+    position: absolute;
+    z-index: 10;
+    aspect-ratio: 1/1;
+    width: 35px;
+    height: 35px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.item-carousel-wrapper:hover .carousel-controller {
+    opacity: 0.8;
+    visibility: visible;
+}
+
+.carousel-controller:not(.hidden):hover {
+     opacity: 1;
+}
+
+.carousel-controller.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+    cursor: default;
+}
+
+.carousel-controller.left {
+    left: 10px; 
+}
+
+.carousel-controller.right {
+    right: 10px; 
+}
+
+.carousel-controller:disabled {
+}

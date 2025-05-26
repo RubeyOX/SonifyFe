@@ -47,7 +47,7 @@ export default function HomeDashboard() {
   return (
     <div className='homedb-container'>
       <div className="homedb-header-container">
-        <h4 className="titledb">DASHBOARD - HOME</h4>
+        <h3 className="titledb">DASHBOARD - HOME</h3>
         <label htmlFor='searchdb' className="search-container">
           <SearchOutlinedIcon />
           <input type="text" id="searchdb" placeholder='Search for tools & features...' />

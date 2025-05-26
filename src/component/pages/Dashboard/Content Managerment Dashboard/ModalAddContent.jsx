@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import './ModalAddContent.css'
+import MusicAPI from '../../../../api/musicAPI';
+import { useAuth } from '../../../../utils/AuthenticationUtils';
 export default function ModalAddContent({ openclose }) {
+    const {token}=useAuth()
     const [tagsModal, setTagsModal] = useState(false)
+    const [collaboratorInput, setCollaboratorInput] = useState({
+        name: '',
+        user_id: '',
+        role: ''
+    });
     const tagsSelection = [{
-        id: '023',
-        tags: 'something'
+        id: '0423',
+        tags: 'Fun',
     }, {
-        id: '013',
-        tags: 'seching'
+        id: '042355',
+        tags: 'Dark',
     }, {
-        id: '0243',
-        tags: 'lingching'
-    }]
+        id: '04223',
+        tags: 'Heavy',
+    },]
     const [dataContent, setDataContent] = useState({
         cover_image: '',
-        name: '',
+        title: '',
         description: '',
-        genre: [{
-            id: '',
-            tags: ''
-        },
-        ],
-        collaborators: '',
+        genre: [],
+        collaborators: [],
         music_file: '',
     })
     const [previewCoverImage, setPreviewCoverImage] = useState(null)
+
+    // On Change Data
     const onChangeData = (e) => {
         const { id, files, type, value } = e.target
         if (type === 'file') {
@@ -42,6 +48,7 @@ export default function ModalAddContent({ openclose }) {
             }));
         }
     }
+    // tags
     const onChangeTags = (id, tags) => {
         const checkTags = dataContent.genre.some(item => item.id === id)
         if (checkTags) {
@@ -59,23 +66,68 @@ export default function ModalAddContent({ openclose }) {
     const openTagsModal = () => {
         setTagsModal(pre => !pre)
     }
-    // console.log('Cover Image:', dataContent.cover_image?.name || 'none');
-    // console.log('Music File:', dataContent.music_file?.name || 'none');
-    // console.log('Name:', dataContent.name);
-    // console.log('Description:', dataContent.description);
-    // console.log('Genre:', JSON.stringify(dataContent.genre));
-    // console.log('Collaborators:', dataContent.collaborators);
 
+    // collaborator
+    const handleCollaborator = (e) => {
+        e.preventDefault()
+        const { name, role, user_id } = collaboratorInput
+        if (!name.trim()) {
+            alert('need name')
+            return;
+        }
+        let AlreadyExist = false
+        if (!user_id.trim()) {
+            AlreadyExist = dataContent.collaborators.some(item => item.name.toLowerCase() === name.toLowerCase())
+        } else if (user_id.trim()) {
+            AlreadyExist = dataContent.collaborators.some(item => item.name.toLowerCase() === name.toLowerCase() || item.user_id.toLowerCase() === user_id.toLowerCase())
+
+        }
+        if (AlreadyExist) {
+            alert('Already exist name/User id')
+            return;
+        }
+        setDataContent(pre => ({
+            ...pre,
+            collaborators: [...pre.collaborators, { name: name.trim(), user_id: user_id.trim(), role: role.trim() }]
+        }))
+        setCollaboratorInput({ name: '', user_id: '', role: '' })
+    }
+
+    const removeCollaborator = (index) => {
+        setDataContent(pre => ({
+            ...pre,
+            collaborators: pre.collaborators.filter((_, i) => i !== index)
+        }))
+    }
+    // API
+
+    const uploadMusic = async (e) => {
+        e.preventDefault()
+        try{
+            const response= await MusicAPI.uploadMusic(dataContent,token)
+            console.log(response)
+            alert('success')
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        const fetchGenre = async () => {
+        }
+
+    }, [])
     return (
         <div className='modal-addcontent-layout'>
             <span onClick={openclose} className="exit">X</span>
-            <form action="" className='modal-addcontent-container'>
+            <form onSubmit={uploadMusic} className='modal-addcontent-container'>
+                <div className="flex-modal">
                 <h3>Upload new content</h3>
                 <label className='upload-img' htmlFor="cover_image">{previewCoverImage ? <img src={previewCoverImage} alt="Cover Image" /> : 'Upload cover image'} </label>
                 <input type="file" accept='image/*' name="cover_image" id="cover_image" onChange={onChangeData} placeholder='Upload Cover Image' style={{ display: 'none' }} />
                 <div className="type-section">
-                    <label htmlFor="name">Upload new cover</label>
-                    <input type="text" id='name' placeholder='Name of your song' value={dataContent.name} onChange={onChangeData} />
+                    <label htmlFor="title">Name</label>
+                    <input type="text" id='title' placeholder='Name of your song' value={dataContent.title} onChange={onChangeData} />
                 </div>
                 <div className="type-section type-decription">
                     <label htmlFor="description">Descriptions</label>
@@ -94,7 +146,26 @@ export default function ModalAddContent({ openclose }) {
                 </div>
                 <div className="type-section">
                     <label htmlFor="collaborator">Collaborator</label>
-                    <input type="text" id='collaborators' placeholder='UserID/Name' value={dataContent.collaborators} onChange={onChangeData} />
+                    <div className="collaborator-container">
+                        {dataContent.collaborators.map((collab, index) => {
+                            const hasAnyValue = collab.name || collab.role || collab.user_id;
+                            return hasAnyValue ? (
+                                <span key={index}>
+                                    {collab.name} {collab.role && `/${collab.role}`} {collab.user_id && `(${collab.user_id})`}
+                                    <button type='button' onClick={() => removeCollaborator(index)}>X</button>
+                                </span>
+                            ) : null;
+                        })}
+                        <input type="text" id='collaborators' placeholder='Name' value={collaboratorInput.name} onChange={(e) => setCollaboratorInput(pre => ({ ...pre, name: e.target.value }))} />
+                        <p>More Detail (optional)</p>
+                        <div className="detail-collaborators">
+                            <div className="left-input">
+                                <input type="text" id='collaborators' placeholder='UserID (optional)' value={collaboratorInput.user_id} onChange={(e) => setCollaboratorInput(pre => ({ ...pre, user_id: e.target.value }))} />
+                                <input type="text" id='collaborators' placeholder='Role (optional)' value={collaboratorInput.role} onChange={(e) => setCollaboratorInput(pre => ({ ...pre, role: e.target.value }))} />
+                            </div>
+                            <button onClick={handleCollaborator}>Add</button>
+                        </div>
+                    </div>
                 </div>
                 <div className="type-section">
                     <label htmlFor="music_file">Music file (AAC)</label>
@@ -102,6 +173,7 @@ export default function ModalAddContent({ openclose }) {
                     <input type="file" accept='audio/*' id='music_file' onChange={onChangeData} style={{ display: 'none' }} />
                 </div>
                 <p className='note'>For lyrics you can edit it later in Sonify Music Studio</p>
+                </div>
                 <button>Upload</button>
             </form>
         </div>

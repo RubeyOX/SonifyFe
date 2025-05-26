@@ -81,24 +81,3 @@
 .filter-user-container .filter-option-container .right-filter .search-section input:focus-within{
     outline: unset;
 }
-
-/* data list  */
-
-.user-manager-container .data-list-container table{
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.user-manager-container .data-list-container table thead tr{
-    background-color: #111218;
-    height: 35px;
-    font-size: 13px;
-}
-.user-manager-container .data-list-container table tbody tr{
-    height: 35px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);;
-}
-.user-manager-container .data-list-container table tbody tr td{
-    border-right: 1px solid rgba(255, 255, 255, 0.6);
-}

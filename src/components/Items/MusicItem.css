@@ -1,0 +1,60 @@
+.n-music-item{
+    width: 200px;
+    height: 100%;
+    display: grid;
+    grid-template-rows:auto 1fr;
+    gap: 10px;
+    color: white;
+}
+.n-music-item .music-cover{
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+}
+.n-music-item .music-cover-wrapper{
+    position: relative;
+}
+.music-cover-wrapper .overlay{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: fit-content;
+    height: fit-content;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.2s ease-in-out;
+}
+.n-music-item{
+    cursor: pointer;
+}
+.n-music-item:hover .overlay{
+    opacity: 1;
+    transform: translateY(0px);
+
+    transition: 0.2s ease-in-out;
+}
+.n-music-item .item-info .music-title{
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.n-music-item .item-info .contributors{
+    font-size: 0.8rem;
+    color: var(--Secondary-neutral-accent);
+    line-height: 1.4;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.n-music-item .item-info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-flow: column;
+}

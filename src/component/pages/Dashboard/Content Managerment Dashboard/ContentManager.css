@@ -94,24 +94,3 @@
     border-radius: 10px;
     cursor: pointer;
 }
-
-/* data list  */
-
-.content-manager-container .data-list-container table{
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.content-manager-container .data-list-container table thead tr{
-    background-color: #111218;
-    height: 35px;
-    font-size: 13px;
-}
-.content-manager-container .data-list-container table tbody tr{
-    height: 35px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);;
-}
-.content-manager-container .data-list-container table tbody tr td{
-    border-right: 1px solid rgba(255, 255, 255, 0.6);
-}

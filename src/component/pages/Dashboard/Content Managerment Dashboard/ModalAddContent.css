@@ -7,6 +7,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
+    /* overflow: auto; */
 }
 .modal-addcontent-layout .exit{
     position: absolute;
@@ -21,15 +23,24 @@
 .modal-addcontent-layout .exit:hover{
     background-color: lightcyan;
 }
+
 .modal-addcontent-layout .modal-addcontent-container{
-    width: 30%;
+    width: 28%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 6px;
+    justify-content:space-between;
+    height:100%;
+}
+.modal-addcontent-layout .modal-addcontent-container .flex-modal{
+    width:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
 }
 .modal-addcontent-layout .modal-addcontent-container .upload-img{
-    width: 300px;
+    width: 60%;
     aspect-ratio: 1;
     background-color: lightgray;
     display: flex;
@@ -57,6 +68,47 @@
     padding: 5px 10px;
     background-color: lightgray;
     border-radius: 5px;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    border: 1px solid black;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section  .collaborator-container span{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 8px;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container button{
+    padding: 2px 5px;
+    margin: unset;
+}
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container .detail-collaborators{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input input{
+    width: 100%;
+}
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators button{
+    width: unset;
+    flex:auto;
+    flex-shrink: 0;
+    border-radius: 5pxs;
 }
 .modal-addcontent-layout .modal-addcontent-container .input-audio{
     color: black;
@@ -89,8 +141,7 @@
     font-size: 11px;
     font-style: italic;
 }
-.modal-addcontent-layout .modal-addcontent-container button{
-    margin-top: 10%;
+.modal-addcontent-layout button{
     width: 100%;
     padding: 10px 0;
     background-color: var(--purple-color);
@@ -98,6 +149,6 @@
     cursor: pointer;
     border: unset;
 }
-.modal-addcontent-layout .modal-addcontent-container button:hover{
+.modal-addcontent-layout button:hover{
     opacity: 0.8;
 }

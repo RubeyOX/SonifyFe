@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import './UserManager.css'
+import { ThemeContext } from '../Dashboard';
+import DataTable from '../Manager Template/DataTable';
+import Cookies from 'js-cookie';
 export default function UserManager() {
+  const { setTableTags } = useContext(ThemeContext)
+  useEffect(() => {
+    setTableTags(['Username', 'Email', 'Verification status', 'Role', 'Joined at', 'Actions'])
+  }, [])
   return (
     <div className='user-manager-container'>
       <div className="user-manager-header">
@@ -24,30 +31,7 @@ export default function UserManager() {
           </div>
         </div>
       </div>
-      <div className="data-list-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Verication status</th>
-              <th>Role</th>
-              <th>Joined at</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>YourName</td>
-              <td>Something@mail.com</td>
-              <td>Nope</td>
-              <td>user</td>
-              <td>30/4/1975</td>
-              <td>Alive</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable />
     </div>
   )
 }

@@ -5,6 +5,7 @@
     max-height: 100%;
     gap: 10px;
     background-color: var(--dark-black-background);
+    overflow: auto;
 }
 .dashboard-container .asidedb-container{
     flex: 0 0 300px;
