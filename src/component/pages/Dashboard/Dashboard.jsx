@@ -17,7 +17,7 @@ export default function Dashboard() {
       navigate('/login');
     }
     console.log(user)
-    if (user.role == 'user') {
+    if (user?.role == 'user') {
       navigate('/home')
     }
   }, [token])
