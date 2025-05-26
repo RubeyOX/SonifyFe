@@ -1,32 +1,45 @@
+// --- START OF FILE musicAPI.js --- (Updated)
+
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3000/api/v1/music';
-const STREAM_BASE_URL = 'http://localhost:3000/api/v1/music'; 
+// STREAM_BASE_URL is not strictly needed here if playbackUrl is absolute or correctly relative from backend
+// const STREAM_BASE_URL = 'http://localhost:3000/api/v1/music';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
 });
 
+// Helper to ensure playback URLs are absolute if they are relative
 const getFullStreamUrl = (playbackUrl) => {
-    if (!playbackUrl) return ''; // Handle null/undefined playbackUrl
+    if (!playbackUrl) return '';
+    // If backend already provides full URL, no need to change it
     if (playbackUrl.startsWith('http://') || playbackUrl.startsWith('https://')) {
         return playbackUrl;
     }
+    // Assuming playbackUrl is like "/api/v1/music/stream/someId" or just "/stream/someId"
+    // And your web app is served from (e.g.) http://localhost:5173
+    // We need to construct the full path to the backend stream endpoint
+    const backendOrigin = 'http://localhost:3000'; // Or your actual backend origin
     try {
-        const url = new URL(playbackUrl, STREAM_BASE_URL);
+        // If playbackUrl is already a full path from the API root like "/api/v1/music/stream/id"
+        if (playbackUrl.startsWith('/api/v1/music/stream/')) {
+             return `${backendOrigin}${playbackUrl}`;
+        }
+        // If playbackUrl is relative to the music API base like "/stream/id"
+        const url = new URL(playbackUrl, API_BASE_URL); // This forms http://localhost:3000/api/v1/music/stream/id
         return url.toString();
     } catch (e) {
         console.error("Failed to construct full playback URL:", playbackUrl, e);
-        return playbackUrl;
+        return `${backendOrigin}${playbackUrl}`; // Fallback for very relative paths
     }
 };
 
 
 const MusicAPI = {
-    listNewMusic: async ({ limit = 12, offset = 0, sortBy, sortOrder = 'desc' } = {}, authToken) => {
+    listNewMusic: async ({ limit = 12, page = 1 } = {}, authToken) => { // Added page
         try {
-            const config = { params: { limit, offset, sortOrder } };
-            if (sortBy) config.params.sortBy = sortBy;
+            const config = { params: { limit, page } };
             if (authToken) {
                 config.headers = { Authorization: `Bearer ${authToken}` };
             }
@@ -34,7 +47,7 @@ const MusicAPI = {
             if (response.data && response.data.data) {
                 response.data.data = response.data.data.map(track => ({
                     ...track,
-                    fullPlaybackUrl: getFullStreamUrl(track.playbackUrl) 
+                    fullPlaybackUrl: getFullStreamUrl(track.playbackUrl)
                 }));
             }
             return response.data;
@@ -43,26 +56,46 @@ const MusicAPI = {
             throw error.response ? error.response.data : new Error('Failed to fetch new music');
         }
     },
-    searchMusic: async ({ query, limit = 10, offset = 0, genre_id, artist_id, album_id } = {}, authToken) => {
+    // Updated searchMusic
+    searchMusic: async ({
+        q,
+        type = 'all', // 'music', 'album', 'artist', 'all'
+        genreId,
+        albumId, // Corrected from album_id to match backend query params
+        artistId, // Corrected from artist_id
+        musicPage = 1, musicLimit = 5,
+        albumPage = 1, albumLimit = 5,
+        artistPage = 1, artistLimit = 5
+    } = {}, authToken) => {
         try {
-            const config = { params: { query, limit, offset } };
-            if (genre_id) config.params.genre_id = genre_id;
-            if (artist_id) config.params.artist_id = artist_id;
-            if (album_id) config.params.album_id = album_id;
+            const params = {
+                q, type,
+                musicPage, musicLimit,
+                albumPage, albumLimit,
+                artistPage, artistLimit
+            };
+            if (genreId) params.genreId = genreId;
+            if (albumId) params.albumId = albumId;
+            if (artistId) params.artistId = artistId;
+
+            const config = { params };
             if (authToken) {
                 config.headers = { Authorization: `Bearer ${authToken}` };
             }
             const response = await apiClient.get('/search', config);
-             if (response.data && response.data.data) {
-                response.data.data = response.data.data.map(track => ({
+            // The response structure is now { music: { data: [], pagination: {} }, albums: {...}, artists: {...} }
+            // We need to process playbackUrls within the music data
+            if (response.data?.data?.music?.data) {
+                response.data.data.music.data = response.data.data.music.data.map(track => ({
                     ...track,
                     fullPlaybackUrl: getFullStreamUrl(track.playbackUrl)
                 }));
             }
+            // Potentially process album cover images or artist profile images if they are relative paths
             return response.data;
         } catch (error) {
             console.error('MusicAPI searchMusic error:', error.response ? error.response.data : error.message);
-            throw error.response ? error.response.data : new Error('Failed to search music');
+            throw error.response ? error.response.data : new Error('Failed to search');
         }
     },
     getMusicDetails: async (musicId, authToken) => {
@@ -82,21 +115,48 @@ const MusicAPI = {
             throw error.response ? error.response.data : new Error('Failed to fetch music details');
         }
     },
+    // This function is likely better handled directly by the <audio> element or a player library,
+    // but if you need to fetch the blob for some reason (e.g. Web Audio API), it can stay.
+    // The stream endpoint itself handles auth.
     fetchAudioForPlayback: async (fullPlaybackUrl, authToken) => {
         if (!fullPlaybackUrl) throw new Error('Playback URL is required to fetch audio');
         try {
-            const config = { responseType: 'arraybuffer' };
+            const config = { responseType: 'blob' }; // Changed to blob for easier use with URL.createObjectURL
             if (authToken) {
                 config.headers = { Authorization: `Bearer ${authToken}` };
             }
             const response = await axios.get(fullPlaybackUrl, config);
-            return response.data; // This will be an ArrayBuffer
+            return response.data; // This will be a Blob
         } catch (error) {
             console.error('MusicAPI fetchAudioForPlayback error:', error.response ? error.response.statusText : error.message);
             throw error.response ? new Error(`Failed to fetch audio: ${error.response.statusText}`) : new Error('Failed to fetch audio');
         }
-    }
+    },
+    // New: Get music in an album
+    getMusicInAlbum: async (albumId, { page = 1, limit = 10 } = {}, authToken) => {
+        if (!albumId) throw new Error('Album ID is required');
+        try {
+            const config = { params: { page, limit } };
+            if (authToken) {
+                config.headers = { Authorization: `Bearer ${authToken}` };
+            }
+            // Assuming album routes are separate, or adjust base URL
+            const albumApiClient = axios.create({ baseURL: 'http://localhost:3000/api/v1/albums' });
+            const response = await albumApiClient.get(`/${albumId}/music`, config);
 
+            if (response.data?.data?.music) { // Backend returns { album: {}, music: [], pagination: {} }
+                response.data.data.music = response.data.data.music.map(track => ({
+                    ...track,
+                    fullPlaybackUrl: getFullStreamUrl(track.playbackUrl)
+                }));
+            }
+            return response.data;
+        } catch (error) {
+            console.error(`MusicAPI getMusicInAlbum (albumId: ${albumId}) error:`, error.response ? error.response.data : error.message);
+            throw error.response ? error.response.data : new Error('Failed to fetch music in album');
+        }
+    },
 };
 
 export default MusicAPI;
+// --- END OF FILE musicAPI.js ---
