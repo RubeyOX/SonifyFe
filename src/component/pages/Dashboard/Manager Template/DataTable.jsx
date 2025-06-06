@@ -112,7 +112,7 @@ export default function DataTable() {
                                         <td key={idx}>{(() => {
                                             const value=item[key]
                                             if (typeof value === 'boolean') {                    
-                                                return value ? <CloseIcon /> :<CheckIcon />
+                                                return value ? <CheckIcon /> : <CloseIcon />;
                                             }
                                             if (typeof value === 'string' && iosRegex.test(value)) {
                                                 const date = new Date(value).toLocaleDateString('vi-VN', { timeZone: 'UTC' })
