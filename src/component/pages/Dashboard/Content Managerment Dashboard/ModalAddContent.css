@@ -1,4 +1,4 @@
-.modal-addcontent-layout{
+.modal-addcontent-layout {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -10,7 +10,8 @@
     padding: 20px 0;
     /* overflow: auto; */
 }
-.modal-addcontent-layout .exit{
+
+.modal-addcontent-layout .exit {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -20,26 +21,29 @@
     padding: 8px 12px;
     cursor: pointer;
 }
-.modal-addcontent-layout .exit:hover{
+
+.modal-addcontent-layout .exit:hover {
     background-color: lightcyan;
 }
 
-.modal-addcontent-layout .modal-addcontent-container{
+.modal-addcontent-layout .modal-addcontent-container {
     width: 28%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content:space-between;
-    height:100%;
+    justify-content: space-between;
+    height: 100%;
 }
-.modal-addcontent-layout .modal-addcontent-container .flex-modal{
-    width:100%;
+
+.modal-addcontent-layout .modal-addcontent-container .flex-modal {
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 5px;
 }
-.modal-addcontent-layout .modal-addcontent-container .upload-img{
+
+.modal-addcontent-layout .modal-addcontent-container .upload-img {
     width: 60%;
     aspect-ratio: 1;
     background-color: lightgray;
@@ -49,34 +53,93 @@
     cursor: pointer;
     color: black;
 }
-.modal-addcontent-layout .modal-addcontent-container .upload-img img{
+
+.modal-addcontent-layout .modal-addcontent-container .upload-img img {
     width: 100%;
     aspect-ratio: 1;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section {
     display: flex;
     flex-direction: column;
     gap: 3px;
     width: 100%;
     position: relative;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section label{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section label {
     font-size: 14px;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section input, .modal-addcontent-layout .modal-addcontent-container .input-audio{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section input,
+.modal-addcontent-layout .modal-addcontent-container .input-audio {
     width: 100%;
     padding: 5px 10px;
     background-color: lightgray;
     border-radius: 5px;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     align-items: center;
     border: 1px solid black;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section  .collaborator-container span{
+
+.modal-addcontent-layout .modal-addcontent-container button {
+    width: 100%;
+    padding: 10px 0;
+    background-color: var(--purple-color);
+    color: white;
+    cursor: pointer;
+    border: unset;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section button:hover {
+    opacity: 0.8;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collab-tag {
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    color: black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collab-text {
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collab-remove {
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collab-remove:hover {
+    color: red;
+}
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container span {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -85,70 +148,77 @@
     color: black;
     padding: 5px 8px;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container button{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container button {
     padding: 2px 5px;
     margin: unset;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container .detail-collaborators{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .collaborator-container .detail-collaborators {
     width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
-.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input{
+
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input {
     width: 80%;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
-.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input input{
+
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators .left-input input {
     width: 100%;
 }
-.modal-addcontent-container .type-section .collaborator-container .detail-collaborators button{
+
+.modal-addcontent-container .type-section .collaborator-container .detail-collaborators button {
     width: unset;
-    flex:auto;
+    flex: auto;
     flex-shrink: 0;
     border-radius: 5pxs;
 }
-.modal-addcontent-layout .modal-addcontent-container .input-audio{
+
+.modal-addcontent-layout .modal-addcontent-container .input-audio {
     color: black;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section textarea{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section textarea {
     height: 100px;
     background-color: lightgray;
     border-radius: 5px;
     padding: 5px 10px;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal{
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal {
     position: absolute;
     top: 100%;
     z-index: 1;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
-.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal p{
-    background-color: white;
+
+.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal p {
+    background-color: lightpink;
     padding: 5px 10px;
     border-bottom: 1px solid black;
     color: black;
     font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
+    width: 33.33%;
+    border: 1px solid black;
+    box-shadow: 0 0 5px var(--purple-color);
 }
 
+.modal-addcontent-layout .modal-addcontent-container .type-section .choose-modal p:hover {
+    background-color: var(--purple-color);
+    color: white;
+}
 
-.modal-addcontent-layout .modal-addcontent-container .note{
+.modal-addcontent-layout .modal-addcontent-container .note {
     opacity: 0.4;
     font-size: 11px;
     font-style: italic;
-}
-.modal-addcontent-layout button{
-    width: 100%;
-    padding: 10px 0;
-    background-color: var(--purple-color);
-    color: white;
-    cursor: pointer;
-    border: unset;
-}
-.modal-addcontent-layout button:hover{
-    opacity: 0.8;
 }

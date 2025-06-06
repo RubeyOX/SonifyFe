@@ -53,7 +53,7 @@
     flex-wrap: wrap;
     gap: 10px;
 }
-.homedb-container .revenue-container .circle-revenue,.homedb-container .revenue-container .linebar-revenue,.homedb-container .revenue-container .line-streaming{
+.homedb-container .revenue-container .circle-revenue,.homedb-container .revenue-container .linebar-revenue,.homedb-container .revenue-container .line-streaming,.homedb-container .revenue-container .user-created-chart{
     background-color: var(--light-gray-background);
     border-radius: 10px;
     flex: 1;

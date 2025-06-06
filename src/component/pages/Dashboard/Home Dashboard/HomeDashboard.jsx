@@ -3,11 +3,14 @@ import Plot from 'react-plotly.js';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import './HomeDashboard.css'
+import { useAuth } from '../../../../utils/AuthenticationUtils';
 export default function HomeDashboard() {
   // data
+  const { user } = useAuth()
   const months = 31
   const generateData = () => Array.from({ length: months }, () => Math.floor(Math.random() * 70) + 10);
-  const label = (['Artist','Quảng cáo','Prenium user','Hợp đồng Artist','Khác'])
+  const [userCreated, setUserCreated] = useState(generateData());
+  const label = (['Artist', 'Quảng cáo', 'Prenium user', 'Hợp đồng Artist', 'Khác'])
   const colorMap = {
     'Artist': '#FF4136',
     'Quảng cáo': '#2ECC40',
@@ -18,19 +21,21 @@ export default function HomeDashboard() {
 
   //set value
   const [revenue, setRevenue] = useState(
-    Object.fromEntries(label.map(item=>[item,generateData()]))
+    Object.fromEntries(label.map(item => [item, generateData()]))
   );
   const [streamingBandwith, setStreamingBandwith] = useState(generateData())
-  
+
   const days = Array.from({ length: months }, (_, i) => `${i + 1}`);
   const totalMoney = Object.fromEntries(
-      Object.entries(revenue).map(([label, arr]) => {
-        const sum = arr.reduce((acc, v) => acc + v, 0);
-        return [label, sum];
-      })
-    );
-  const dailyRevenue = Array.from({length:months},(_,i)=>
-  label.reduce((sum,label)=>sum+revenue[label][i],0))
+    Object.entries(revenue).map(([label, arr]) => {
+      const sum = arr.reduce((acc, v) => acc + v, 0);
+      return [label, sum];
+    })
+  );
+  const totalUserCreated = userCreated.reduce((a, b) => a + b, 0);
+
+  const dailyRevenue = Array.from({ length: months }, (_, i) =>
+    label.reduce((sum, label) => sum + revenue[label][i], 0))
   const trace = Object.entries(revenue).map(([label, value]) => ({
     x: days,
     y: value,
@@ -38,7 +43,7 @@ export default function HomeDashboard() {
     type: 'bar',
     marker: { color: colorMap[label] }
   }))
-  
+
   // trung bình 
   const avgRevenue = dailyRevenue.reduce((a, b) => a + b, 0) / months;
   const avgLine = Array(months).fill(avgRevenue);
@@ -153,7 +158,39 @@ export default function HomeDashboard() {
             config={{ displayModeBar: false }}
           />
         </div>
-
+        {user?.role == 'admin' ? (<div className="user-created-chart">
+          <Plot
+            data={[
+              {
+                x: days,
+                y: userCreated,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: `Tổng user tạo mới: ${totalUserCreated}`,
+                line: {
+                  color: '#2ECC40',
+                  width: 3
+                },
+                marker: {
+                  size: 6
+                }
+              }
+            ]}
+            layout={{
+              title: {
+                text: 'User tạo mới trong tháng',
+                font: { color: 'white', size: 16 }
+              },
+              plot_bgcolor: 'rgba(0,0,0,0)',
+              paper_bgcolor: 'rgba(0,0,0,0)',
+              font: { color: 'white' },
+              xaxis: { type: 'category', title: { text: 'Ngày', color: 'white', size: 16 } },
+              yaxis: { title: { text: 'Số lượng user', color: 'white', size: 16 } },
+              showlegend: true
+            }}
+            config={{ displayModeBar: false }}
+          />
+        </div>):''}
       </div>
     </div>
   )

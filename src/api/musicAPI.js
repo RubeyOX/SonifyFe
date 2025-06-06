@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const API_BASE_URL = "http://localhost:3000/api/v1/music";
 const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 
 const apiClient = axios.create({
@@ -210,10 +210,12 @@ const MusicAPI = {
       formData.append("coverImage", musicData.cover_image);
       formData.append("audioFile", musicData.music_file);
       formData.append("title", musicData.title);
-      const genreIds = musicData.genre.map((g) => g.id);
-      genreIds.forEach((id) => {
-        formData.append("genre_id", id); // backend nhận mảng
-      });
+      const genreIds = musicData.genre.map((tags) => tags.id);
+      console.log(genreIds)
+      // genreIds.forEach((id) => {
+      //   formData.append("genre_id", id); // backend nhận mảng
+      // });
+      formData.append("genre_id",JSON.stringify(genreIds))
       formData.append("collaborators", JSON.stringify(musicData.collaborators));
       const response = await apiClient.post("/upload", formData, {
         headers: {
@@ -235,9 +237,10 @@ const MusicAPI = {
   }={},authToken) => {
     try {
       const config = { params: { limit, offset, sortBy, sortOrder } };
-      if (sortBy) config.params.sortBy = sortBy;
       if (authToken) {
         config.headers = { Authorization: `Bearer ${authToken}` };
+      }else if(!authToken){
+        throw new Error("Need token to list user music")
       }
       const response = await apiClient.get("/list-music-user", config);
       return response.data;
@@ -248,9 +251,57 @@ const MusicAPI = {
       );
       throw error.response
         ? error.response.data
-        : new Error("Failed to fetch new music");
+        : new Error("Failed to fetch user music");
     }
   },
+  listMusic: async({
+    limit = 10,
+    offset = 0,
+    sortBy,
+    sortOrder='desc'
+  }={},authToken)=>{
+    try{
+      const config = { params: { limit, offset, sortBy, sortOrder } };
+      if (authToken) {
+        config.headers = { Authorization: `Bearer ${authToken}` };
+      }else if(!authToken){
+        throw new Error("Need token to list user music")
+      }
+      const response = await apiClient.get("/list-music", config);
+      return response.data;
+    }catch(error){
+      console.error(
+        "MusicAPI listMusic error:",
+        error.response ? error.response.data : error.message
+      );
+      throw error.response
+        ? error.response.data
+        : new Error("Failed to fetch all music");
+    }
+  },
+  changeMusicDetailManager:async(data,authToken)=>{
+    try{
+      console.log(data)
+      const config={}
+      if(!authToken){
+        throw new Error('Need token to change music detail')
+      }
+      config.headers={Authorization: `Bearer ${authToken}`}
+      if(!data.title || !Array.isArray(data.genre) || typeof data.is_deleted!=='boolean'){
+        throw new Error('Missing data')
+      }
+      const response=await apiClient.put("/change-detail",data,config)
+      return response.data
+    }catch(error){
+      console.error(
+        "MusicAPI change Music detail error:",
+        error.response ? error.response.data : error.message
+      );
+      throw error.response
+        ? error.response.data
+        : new Error("Failed to change music detail");
+    }
+  }
 };
 
 export default MusicAPI;

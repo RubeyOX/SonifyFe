@@ -6,9 +6,10 @@ import { ThemeContext } from '../Dashboard';
 import DataTable from '../Manager Template/DataTable';
 import Cookies from 'js-cookie';
 export default function UserManager() {
-  const { setTableTags } = useContext(ThemeContext)
+  const { setTableTags, setTypeName } = useContext(ThemeContext)
   useEffect(() => {
     setTableTags(['Username', 'Email', 'Verification status', 'Role', 'Joined at', 'Actions'])
+    setTypeName('user')
   }, [])
   return (
     <div className='user-manager-container'>
