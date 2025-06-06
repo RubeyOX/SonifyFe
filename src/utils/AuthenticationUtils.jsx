@@ -46,6 +46,8 @@ export const AuthenticationProvider = ({
       setError(err.message || 'An unexpected error occurred while fetching user data.');
       setUser(null);
       setUserId(null);
+      Cookies.remove(cookieName);
+      setTokenState(null);
     } finally {
       setIsLoading(false);
     }

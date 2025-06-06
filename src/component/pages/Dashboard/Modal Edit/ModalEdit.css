@@ -1,0 +1,77 @@
+.modal-edit-layout {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-edit-container {
+    width: 90%;
+    background-color: var(--dark-black-background);
+    padding-bottom: 35px;
+    border: 2px dashed white;
+    margin: auto;
+    text-align: center;
+}
+
+.modal-edit-container .close {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.modal-edit-container .close span {
+    display: inline-block;
+    background-color: white;
+    color: black;
+    padding: 8px 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-edit-container .close span:hover {
+    background-color: lightcyan;
+}
+
+.modal-edit-container input {
+    padding: 3px 6px;
+    outline: unset;
+    border: unset;
+    font-size: 14px;
+}
+
+.modal-edit-container button {
+    padding: 10px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    background-color: var(--purple-color);
+    color: white;
+    cursor: pointer;
+}
+
+.modal-edit-container table .choose-container {
+    position: relative;
+}
+
+.modal-edit-container table .choose-container .choose-list {
+    position: absolute;
+    width: 120%;
+    min-width: 110px;
+    top: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 3px;
+    background-color: lightpink;
+    border-radius: 5px;
+    padding: 10px;
+}
+.modal-edit-container table .choose-container .choose-list span{
+    width: 32%;
+    min-width: 90px;
+    background-color: var(--purple-color);
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid blue;
+    cursor: pointer;
+}

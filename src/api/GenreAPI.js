@@ -1,7 +1,7 @@
 // --- START OF FILE genreAPI.js ---
 import axios from 'axios';
 
-const API_BASE_URL = 'https://sonify-backend.onrender.com/api/v1/genres';
+const API_BASE_URL = 'http://localhost:3000/api/v1/genres';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
@@ -23,15 +23,9 @@ const GenreAPI = {
         }
     },
 
-    listGenres: async ({ page = 1, limit = 20, search } = {}, authToken) => {
+    listGenres: async () => {
         try {
-            const params = { page, limit };
-            if (search) params.search = search;
-            const config = { params };
-            if (authToken) { // If listing genres is protected or personalized
-                config.headers = { Authorization: `Bearer ${authToken}` };
-            }
-            const response = await apiClient.get('/', config);
+            const response=await apiClient.get('/list')
             return response.data;
         } catch (error) {
             console.error('GenreAPI listGenres error:', error.response ? error.response.data : error.message);

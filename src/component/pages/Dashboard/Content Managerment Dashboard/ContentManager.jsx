@@ -7,16 +7,10 @@ import ModalAddContent from './ModalAddContent';
 import DataTable from '../Manager Template/DataTable'
 import { ThemeContext } from '../Dashboard';
 export default function ContentManager() {
-  const [dataContent, setDataContent] = useState([{
-    content_type: 'Music',
-    name: 'Something',
-    genre: 'Chill',
-    status: 'Normal',
-    createAt: '15/24/2024'
-  }])
-  const {setTableTags}=useContext(ThemeContext)
+  const {setTableTags,setTypeName}=useContext(ThemeContext)
   useEffect(()=>{
     setTableTags(['Content Type', 'Name', 'Genre', 'Status', 'Created at', 'Actions'])
+    setTypeName('content')
   },[])
 
   const [openModal, setOpenModal] = useState(false)
