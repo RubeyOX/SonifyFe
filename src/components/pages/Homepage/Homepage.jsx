@@ -134,7 +134,10 @@ export default function Homepage() {
     useEffect(() => {
         const fetchPageData = async () => {
             if (!authToken) {
-                setNewReleases([]); setTopTrendingMusic([]); setMadeForYou([]); setRecentlyPlayed([]);
+                setNewReleases([]); 
+                setTopTrendingMusic([]); 
+                setMadeForYou([]); 
+                setRecentlyPlayed([]); // Clear recently played
                 setUserLibraryMusicIds(new Set());
                 setUserLibraryAlbumIds(new Set());
                 setUserLibraryArtistIds(new Set());
@@ -144,35 +147,51 @@ export default function Homepage() {
             }
             setIsPageLoading(true);
 
-            await fetchUserLibraryData();
+            await fetchUserLibraryData(); 
 
             try {
-                const [newMusicRes] = await Promise.allSettled([
+                const [newMusicRes, recentMusicRes] = await Promise.allSettled([
                     MusicAPI.listNewMusic({ limit: 12 }, authToken),
+                    MusicAPI.listRecentMusic({ limit: 6 }, authToken) 
                 ]);
-                console.log(newMusicRes)
-                if (newMusicRes.status === "fulfilled") {
+
+                
+                console.log("Recent Music Response:", recentMusicRes);
+
+                if (newMusicRes.status === "fulfilled" && newMusicRes.value) {
                     const musicData = newMusicRes.value.data || [];
                     setNewReleases(musicData);
                     const sortedTrending = [...musicData].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
                     setTopTrendingMusic(sortedTrending.slice(0, 12));
-                    setMadeForYou(musicData.sort(() => 0.5 - Math.random()).slice(0, 6));
+                    setMadeForYou([...musicData].sort(() => 0.5 - Math.random()).slice(0, 6));
                 } else {
                     console.warn("Failed to fetch new releases:", newMusicRes.reason || newMusicRes.value?.message);
-                    setNewReleases([]); setTopTrendingMusic([]); setMadeForYou([]);
+                    console.warn("Is fetched successfully? :", newMusicRes);
+                    setNewReleases([]); 
+                    setTopTrendingMusic([]); 
+                    setMadeForYou([]);
                 }
-                setRecentlyPlayed([]);
-                setIsPageLoading(false);
+
+                if (recentMusicRes.status === "fulfilled" && recentMusicRes.value) {
+                    setRecentlyPlayed(recentMusicRes.value.data || []);
+                    console.log("Recently played loaded successfully.")
+                } else {
+                    console.warn("Failed to fetch recently played music:", recentMusicRes.reason || recentMusicRes.value?.message);
+                    setRecentlyPlayed([]);
+                }
                 
             } catch (error) {
                 console.error("Error fetching homepage section data:", error);
-                setNewReleases([]); setTopTrendingMusic([]); setMadeForYou([]); setRecentlyPlayed([]);
+                setNewReleases([]); 
+                setTopTrendingMusic([]); 
+                setMadeForYou([]); 
+                setRecentlyPlayed([]);
             } finally {
                 setIsPageLoading(false);
             }
         };
         fetchPageData();
-    }, [authToken, fetchUserLibraryData]);
+    }, [authToken, fetchUserLibraryData]); 
 
     const handleSearch = useCallback(async (query) => {
         if (!query || query.trim() === "") {
@@ -202,7 +221,7 @@ export default function Homepage() {
     }, [authToken]);
 
     const handleAddToQueue = useCallback((item) => {
-        musicPlayer.addToQueue(item.details || item);
+        musicPlayer.addToQueue(item);
         musicPlayer.closeContextMenu();
     }, [musicPlayer]);
 
@@ -228,14 +247,23 @@ export default function Homepage() {
         
     ];
 
+    console.log("--- HOMEPAGE RENDER STATE ---");
+    console.log("isPageLoading:", isPageLoading);
+    console.log("authToken:", !!authToken); // Check if authToken is present
+    console.log("currentSearchQuery:", `"${currentSearchQuery}"`); // See if it's an empty string or has value
+    console.log("searchResults:", searchResults);
+    console.log("isLoadingSearch:", isLoadingSearch);
+    console.log("newReleases length:", newReleases.length, newReleases[0] ? newReleases[0] : "No first item");
+    console.log("topTrendingMusic length:", topTrendingMusic.length);
+    console.log("madeForYou length:", madeForYou.length);
+    console.log("recentlyPlayed length:", recentlyPlayed.length, recentlyPlayed[0] ? recentlyPlayed[0] : "No first item");
+    console.log("--- END HOMEPAGE RENDER STATE ---");
 
     const renderMusicCarousel = (title, items, sectionKeyForItemType = 'music') => {
-        console.log(items)
         if (isPageLoading && items.length === 0 && !currentSearchQuery) {
             return <div className="trending-container" key={title}><p className="loading-text">Loading {title.toLowerCase()}...</p></div>;
         }
         if (!items || items.length === 0) {
-            console.log("No music data")
             return null;
         }
 
@@ -248,7 +276,7 @@ export default function Homepage() {
                     {items.map((item) => (
                         <MusicItem
                             key={`${sectionKeyForItemType}-${item._id}`}
-                            item={item}
+                            item={item} 
                             onPlayClick={() => musicPlayer.setTrackAndPlay(item)}
                             onAddToLibraryClick={handleToggleLibrary}
                             onContextMenuOpen={(event, contextItem = item) => musicPlayer.openContextMenu(event, contextItem, contextMenuActions, sectionKeyForItemType)}
@@ -259,6 +287,7 @@ export default function Homepage() {
             </div>
         );
     };
+    
 
     const renderSearchResults = () => {
         if (isLoadingSearch) return <div className="search-results-container"><p className="loading-text">Searching...</p></div>;
@@ -347,10 +376,12 @@ export default function Homepage() {
                                 <RecentlyWrapper>
                                     {recentlyPlayed.map((item) => (
                                         <RecentlyBlock
+                                            id={item._id}
                                             key={`recent-${item._id}`}
-                                            musicCover={item.cover_image || item.details?.cover_image}
-                                            name={item.title || item.details?.title}
-                                            onPlayClick={() => musicPlayer.setTrackAndPlay(item.details || item)}
+                                            musicCover={item.cover_image }
+                                            name={item.title}
+                                            playingRecently={musicPlayer.currentTrack?._id}
+                                            onPlayClick={() => musicPlayer.setTrackAndPlay(item)}
                                             onContextMenuOpen={(event) => musicPlayer.openContextMenu(event, item.details || item, contextMenuActions, 'music')}
                                         />
                                     ))}

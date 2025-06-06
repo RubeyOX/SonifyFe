@@ -1,7 +1,7 @@
 // --- START OF FILE libraryAPI.js ---
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api/v1/library';
+const API_BASE_URL = 'https://sonify-backend.onrender.com/api/v1/library';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
@@ -82,7 +82,7 @@ const getFullStreamUrl = (playbackUrl) => {
         if (playbackUrl.startsWith('/api/v1/music/stream/')) {
              return `${backendOrigin}${playbackUrl}`;
         }
-        const url = new URL(playbackUrl, 'http://localhost:3000/api/v1/music');
+        const url = new URL(playbackUrl, 'https://sonify-backend.onrender.com/api/v1/music');
         return url.toString();
     } catch (e) {
         console.error("Failed to construct full playback URL:", playbackUrl, e);

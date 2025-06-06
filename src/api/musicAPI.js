@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000/api/v1/music";
-const STREAM_BASE_URL = "http://localhost:3000/api/v1/music";
+const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -171,7 +171,7 @@ const MusicAPI = {
       }
       // Assuming album routes are separate, or adjust base URL
       const albumApiClient = axios.create({
-        baseURL: "http://localhost:3000/api/v1/albums",
+        baseURL: "https://sonify-backend.onrender.com/api/v1/albums",
       });
       const response = await albumApiClient.get(`/${albumId}/music`, config);
 
