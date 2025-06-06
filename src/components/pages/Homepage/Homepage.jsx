@@ -362,8 +362,7 @@ export default function Homepage() {
                 <div className="aside-collection-grid">
                     <Aside
                         openInfo={musicPlayer.openInfoAside}
-                        isItemInLibrary={isItemInLibrary}
-                        onToggleLibrary={handleToggleLibrary}
+                        musicPlayer={musicPlayer}
                     />
                 </div>
                 <div className="main-content">
