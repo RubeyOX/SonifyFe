@@ -77,7 +77,7 @@ const getFullStreamUrl = (playbackUrl) => {
     if (playbackUrl.startsWith('http://') || playbackUrl.startsWith('https://')) {
         return playbackUrl;
     }
-    const backendOrigin = 'http://localhost:3000';
+    const backendOrigin = 'https://sonify-backend.onrender.com';
     try {
         if (playbackUrl.startsWith('/api/v1/music/stream/')) {
              return `${backendOrigin}${playbackUrl}`;

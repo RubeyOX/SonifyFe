@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const backendOrigin = "https://sonify-backend.onrender.com"; //refactored
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -13,7 +14,6 @@ const getFullStreamUrl = (playbackUrl) => {
   if (playbackUrl.startsWith("http://") || playbackUrl.startsWith("https://")) {
     return playbackUrl;
   }
-  const backendOrigin = "https://sonify-backend.onrender.com";
   try {
     if (playbackUrl.startsWith("/api/v1/music/stream/")) {
       return `${backendOrigin}${playbackUrl}`;
