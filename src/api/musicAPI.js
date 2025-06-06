@@ -195,7 +195,6 @@ const MusicAPI = {
   },
   uploadMusic: async (musicData, token) => {
     try {
-      // console.log(musicData)
       if (
         !musicData.cover_image ||
         !musicData.music_file ||
@@ -228,75 +227,14 @@ const MusicAPI = {
       throw error;
     }
   },
-  listUserMusic: async (
+  listUserMusic: async ({
     limit = 10,
     offset = 0,
     sortBy,
     sortOrder = "desc",
-    authToken
-  ) => {
+  }={},authToken) => {
     try {
-      const config = { params: { limit, offset, sortOrder } };
-      if (sortBy) config.params.sortBy = sortBy;
-      if (authToken) {
-        config.headers = { Authorization: `Bearer ${authToken}` };
-      }
-      const response = await apiClient.get("/list-music-user", config);
-      return response.data;
-    } catch (error) {
-      console.error(
-        "MusicAPI listNewMusic error:",
-        error.response ? error.response.data : error.message
-      );
-      throw error.response
-        ? error.response.data
-        : new Error("Failed to fetch new music");
-    }
-  },
-  uploadMusic: async (musicData, token) => {
-    try {
-      // console.log(musicData)
-      if (
-        !musicData.cover_image ||
-        !musicData.music_file ||
-        !musicData.title ||
-        !musicData.description ||
-        musicData.genre.length == 0 ||
-        musicData.collaborators.length == 0
-      ) {
-        alert("Need data");
-        throw new Error("Need data");
-      }
-      const formData = new FormData();
-      formData.append("coverImage", musicData.cover_image);
-      formData.append("audioFile", musicData.music_file);
-      formData.append("title", musicData.title);
-      const genreIds = musicData.genre.map((g) => g.id);
-      genreIds.forEach((id) => {
-        formData.append("genre_id", id); // backend nhận mảng
-      });
-      formData.append("collaborators", JSON.stringify(musicData.collaborators));
-      const response = await apiClient.post("/upload", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  },
-  listUserMusic: async (
-    limit = 10,
-    offset = 0,
-    sortBy,
-    sortOrder = "desc",
-    authToken
-  ) => {
-    try {
-      const config = { params: { limit, offset, sortOrder } };
+      const config = { params: { limit, offset, sortBy, sortOrder } };
       if (sortBy) config.params.sortBy = sortBy;
       if (authToken) {
         config.headers = { Authorization: `Bearer ${authToken}` };
