@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
-const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const API_BASE_URL = "http://localhost:3000/api/v1/music";
+const STREAM_BASE_URL = "http://localhost:3000/api/v1/music";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -171,7 +171,7 @@ const MusicAPI = {
       }
       // Assuming album routes are separate, or adjust base URL
       const albumApiClient = axios.create({
-        baseURL: "https://sonify-backend.onrender.com/api/v1/albums",
+        baseURL: "http://localhost:3000/api/v1/albums",
       });
       const response = await albumApiClient.get(`/${albumId}/music`, config);
 
@@ -311,6 +311,36 @@ const MusicAPI = {
       throw error.response
         ? error.response.data
         : new Error("Failed to fetch new music");
+    }
+  },
+  listRecentMusic: async ({ page = 1, limit = 10 } = {}, authToken) => {
+    if (!authToken) {
+      console.warn("Auth token is required to fetch recent music.");
+      throw new Error("Authentication token is required.");
+    }
+    try {
+      const config = { 
+        params: { page, limit },
+        headers: { Authorization: `Bearer ${authToken}` } 
+      };
+      
+      const response = await apiClient.get("/list/recent", config);
+      
+      if (response.data && response.data.data) {
+        response.data.data = response.data.data.map((track) => ({
+          ...track,
+          fullPlaybackUrl: getFullStreamUrl(track.playbackUrl),
+        }));
+      }
+      return response.data;
+    } catch (error) {
+      console.error(
+        "MusicAPI listRecentMusic error:",
+        error.response ? error.response.data : error.message
+      );
+      throw error.response
+        ? error.response.data
+        : new Error("Failed to fetch recent music");
     }
   },
 };
