@@ -11,10 +11,10 @@ function SuggestionWrapper({ suggestionBlock, suggestionSlider }) {
     <div className="suggest-container">
       <div className="suggestion-block">{suggestionBlock}</div>
       <div className="suggestion-slider">
-        <div className="title-suggest">
+        {/* <div className="title-suggest">
           <b className="title-text">Made for Something</b>
           <p className="show-more">Show more</p>
-        </div>
+        </div> */}
         {suggestionSlider}</div>
       {/* <div className="right-suggest">
         <div className="title-suggest">
