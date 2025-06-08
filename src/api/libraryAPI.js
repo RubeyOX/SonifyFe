@@ -77,12 +77,12 @@ const getFullStreamUrl = (playbackUrl) => {
     if (playbackUrl.startsWith('http://') || playbackUrl.startsWith('https://')) {
         return playbackUrl;
     }
-    const backendOrigin = 'http://localhost:3000';
+    const backendOrigin = 'https://sonify-backend.onrender.com';
     try {
         if (playbackUrl.startsWith('/api/v1/music/stream/')) {
              return `${backendOrigin}${playbackUrl}`;
         }
-        const url = new URL(playbackUrl, 'http://localhost:3000/api/v1/music');
+        const url = new URL(playbackUrl, 'https://sonify-backend.onrender.com/api/v1/music');
         return url.toString();
     } catch (e) {
         console.error("Failed to construct full playback URL:", playbackUrl, e);

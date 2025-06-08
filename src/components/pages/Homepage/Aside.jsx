@@ -1,58 +1,86 @@
-// --- START OF FILE Aside.jsx --- (Updated)
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import FileDownloadDoneOutlinedIcon from '@mui/icons-material/FileDownloadDoneOutlined'; // Or a play icon
-import AddIcon from '@mui/icons-material/Add';
 import './Aside.css';
 import { useAuth } from '../../../utils/AuthenticationUtils';
-import LibraryAPI from '../../../api/libraryAPI'; // New
-import useMusicPlayer from '../../hooks/useMusicPlayer'; // To play items from library
+import LibraryAPI from '../../../api/libraryAPI';
+import MusicAPI from '../../../api/musicAPI';
 
-// Define item types your library will show filters for
 const LIBRARY_ITEM_TYPES = [
-    { key: 'all', display: 'All' },
-    { key: 'music', display: 'Music' },
-    { key: 'album', display: 'Albums' },
-    { key: 'playlist', display: 'Playlists' },
-    { key: 'artist', display: 'Artists' },
+    { key: 'all', display: 'All', itemTypeForAPI: undefined }, 
+    { key: 'music', display: 'Music', itemTypeForAPI: 'music' },
+    { key: 'album', display: 'Albums', itemTypeForAPI: 'album' },
+    { key: 'playlist', display: 'Playlists', itemTypeForAPI: 'playlist' },
+    { key: 'artist', display: 'Artists', itemTypeForAPI: 'artist' },
 ];
 
-export default function Aside({ openInfo }) { // openInfo might be for a specific track's info
-    const { authToken } = useAuth();
-    const musicPlayer = useMusicPlayer();
-    const [isExpanded, setIsExpanded] = useState(true); // Default to expanded
-    const [selectedTypeFilter, setSelectedTypeFilter] = useState(LIBRARY_ITEM_TYPES[0].key); // Default to 'all'
+async function fetchDetailsForItem(entry, authToken) {
+    if (!entry || !entry.item_id || !entry.item_type) return null;
+
+    try {
+        let response;
+        if (entry.details) { 
+            return entry.details;
+        }
+
+        switch (entry.item_type) {
+            case 'music':
+                response = await MusicAPI.getMusicDetails(entry.item_id, authToken);
+                break;
+
+            default:
+                console.warn(`[Aside] Unsupported item type for detail fetching: ${entry.item_type}`);
+                return null;
+        }
+
+        if (response && response.data) { 
+            return response.data;
+        }
+        console.warn(`[Aside] Failed to fetch details for ${entry.item_type} ${entry.item_id}:`, response?.message);
+        return null;
+    } catch (error) {
+        console.error(`[Aside] Error fetching details for ${entry.item_type} ${entry.item_id}:`, error);
+        return null;
+    }
+}
+
+export default function Aside({ openInfo, musicPlayer }) { 
+    const { token: authToken } = useAuth();
+    const [isExpanded, setIsExpanded] = useState(true);
+    const [selectedTypeFilter, setSelectedTypeFilter] = useState(LIBRARY_ITEM_TYPES[0].key);
     const [libraryItems, setLibraryItems] = useState([]);
     const [isLoadingLibrary, setIsLoadingLibrary] = useState(false);
-    // Add pagination state if needed: const [libraryPage, setLibraryPage] = useState(1);
-
 
     useEffect(() => {
-        const fetchLibraryItems = async () => {
+        const fetchLibraryData = async () => {
             if (!authToken) {
                 setLibraryItems([]);
                 return;
             }
             setIsLoadingLibrary(true);
             try {
-                const params = { limit: 50 }; // Fetch more items for library view
-                if (selectedTypeFilter !== 'all') {
-                    params.item_type = selectedTypeFilter;
+                const currentFilterObject = LIBRARY_ITEM_TYPES.find(f => f.key === selectedTypeFilter);
+                const params = { limit: 50 };
+                if (currentFilterObject && currentFilterObject.itemTypeForAPI) {
+                    params.item_type = currentFilterObject.itemTypeForAPI;
                 }
+
                 const response = await LibraryAPI.listLibraryItems(params, authToken);
-                if (response.success && response.data?.items) {
-                    setLibraryItems(response.data.items);
+
+                if (response.success && Array.isArray(response.data?.items)) {
+                    const validItems = response.data.items.filter(item => item && item.details);
+                    setLibraryItems(validItems);
                 } else {
+                    console.warn("[Aside] LibraryAPI.listLibraryItems did not return success or items array:", response);
                     setLibraryItems([]);
                 }
             } catch (error) {
-                console.error("Error fetching library items:", error);
+                console.error("[Aside] Error fetching library items:", error);
                 setLibraryItems([]);
             }
             setIsLoadingLibrary(false);
         };
 
-        fetchLibraryItems();
+        fetchLibraryData();
     }, [authToken, selectedTypeFilter]);
 
     const toggleExpandAside = () => {
@@ -60,40 +88,56 @@ export default function Aside({ openInfo }) { // openInfo might be for a specifi
     };
 
     const handlePlayLibraryItem = (libraryEntry) => {
-        if (libraryEntry.item_type === 'music' && libraryEntry.details) {
+        if (!musicPlayer || !libraryEntry.details) return;
+
+        if (libraryEntry.item_type === 'music') {
             musicPlayer.setTrackAndPlay(libraryEntry.details);
-        } else if (libraryEntry.item_type === 'album' && libraryEntry.details) {
-            // Fetch tracks for this album and play the first one / add to queue
-            console.log("Play album:", libraryEntry.details.name);
-            // musicPlayer.playAlbum(libraryEntry.details); // Implement this in useMusicPlayer
+            console.log("Changed track play.")
+            if (openInfo) openInfo(libraryEntry.details);
+        } else if (libraryEntry.item_type === 'album') {
+            console.log("[Aside] Play album (feature to be implemented):", libraryEntry.details.name);
+        } else if (libraryEntry.item_type === 'playlist') {
+            console.log("[Aside] Play playlist (feature to be implemented):", libraryEntry.details.name);
         }
-        // Add handling for other types like playlist, artist
     };
 
     const renderLibraryItem = (itemEntry) => {
         const { details, item_type } = itemEntry;
-        if (!details) return <p className="item-error">Details missing</p>;
 
-        let title = details.title || details.name || "Unknown Title";
-        let subtitle = "Unknown";
-        let coverImage = details.cover_image || details.cover_image_path || details.profile_image_path || "/SonifyIcon.png";
+        if (!details) {
+            return (
+                <div className="music-item item-error" key={itemEntry._id || itemEntry.item_id || Math.random()}>
+                    <p>Details unavailable</p>
+                </div>
+            );
+        }
 
+        let title = "Unknown Title";
+        let subtitle = "Details";
+        let coverImage = "/SonifyIcon.png"; 
         if (item_type === 'music') {
-            subtitle = details.primary_artist_name || details.collaborators?.map(c => c.name).join(', ') || "Unknown Artist";
+            title = details.title || "Unknown Song";
+            subtitle = details.primary_artist_name || details.collaborators?.find(c => c.role === "Primary Artist")?.name || details.collaborators?.[0]?.name || "Unknown Artist";
+            coverImage = details.cover_image || coverImage;
         } else if (item_type === 'album') {
-            subtitle = details.primary_artist?.name || details.collaborators?.[0]?.name || "Various Artists";
+            title = details.name || "Unknown Album";
+            subtitle = details.artist_name || details.primary_artist_name || details.collaborators?.[0]?.name || "Various Artists";
+            coverImage = details.cover_image_path || details.cover_image || coverImage;
         } else if (item_type === 'playlist') {
-            subtitle = `Playlist • ${details.music_count || 0} songs`;
+            title = details.name || "Unknown Playlist";
+            subtitle = `Playlist • ${details.track_count || details.music_count || 0} songs`;
+            coverImage = details.cover_image_url || details.images?.[0]?.url || coverImage;
         } else if (item_type === 'artist') {
+            title = details.name || "Unknown Artist";
             subtitle = "Artist";
+            coverImage = details.profile_image_path || details.images?.[0]?.url || coverImage;
         }
 
         return (
             <div
-                className="music-item" // Re-use styling or create specific library-item style
-                key={details._id}
+                className="music-item" 
+                key={`${item_type}-${details._id}`}
                 onClick={() => handlePlayLibraryItem(itemEntry)}
-            // onContextMenu={(e) => musicPlayer.openContextMenu(e, details, contextMenuActions, item_type)}
             >
                 <div className="left-music-item">
                     <div className="cover-container">
@@ -104,11 +148,9 @@ export default function Aside({ openInfo }) { // openInfo might be for a specifi
                         <p className="musician-name">{subtitle}</p>
                     </div>
                 </div>
-                {/* Optionally add an icon, e.g., a play icon or type icon */}
             </div>
         );
     };
-
 
     return (
         <div className={`aside-collection ${isExpanded ? 'expanded-aside' : 'collapsed-aside'}`}>
@@ -119,9 +161,8 @@ export default function Aside({ openInfo }) { // openInfo might be for a specifi
                             <CollectionsBookmarkOutlinedIcon />
                             <b>Your Library</b>
                         </span>
-                        {/* <AddIcon />  Add Playlist/etc. functionality later */}
                     </div>
-                    <div className="name-collection-container type-filters"> {/* Renamed class for clarity */}
+                    <div className="name-collection-container type-filters">
                         {LIBRARY_ITEM_TYPES.map((type) => (
                             <span
                                 onClick={() => setSelectedTypeFilter(type.key)}
@@ -138,7 +179,7 @@ export default function Aside({ openInfo }) { // openInfo might be for a specifi
                         ) : libraryItems.length > 0 ? (
                             libraryItems.map(renderLibraryItem)
                         ) : (
-                            <p>Your library is empty for this filter.</p>
+                            <p>Your library is empty{selectedTypeFilter !== 'all' ? ` for ${LIBRARY_ITEM_TYPES.find(t => t.key === selectedTypeFilter)?.display.toLowerCase()}s` : ''}.</p>
                         )}
                     </div>
                 </div>
@@ -146,25 +187,31 @@ export default function Aside({ openInfo }) { // openInfo might be for a specifi
                 <div className="collapse-title">
                     <div className="collection-title-container">
                         <CollectionsBookmarkOutlinedIcon onClick={toggleExpandAside} />
-                        {/* <AddIcon /> */}
                     </div>
                     <div className="music-list-container collapsed-library-icons">
-                        {/* Show a few prominent cover images when collapsed */}
-                        {libraryItems.slice(0, 3).map(itemEntry => (
-                            itemEntry.details && (
+                        {libraryItems.slice(0, 5).map(itemEntry => {
+                            if (!itemEntry.details) return null;
+                             let coverImage = "/SonifyIcon.png";
+                             let title = itemEntry.details.title || itemEntry.details.name || "Item";
+
+                            if (itemEntry.item_type === 'music') coverImage = itemEntry.details.cover_image || coverImage;
+                            else if (itemEntry.item_type === 'album') coverImage = itemEntry.details.cover_image_path || itemEntry.details.cover_image || coverImage;
+                            else if (itemEntry.item_type === 'playlist') coverImage = itemEntry.details.cover_image_url || itemEntry.details.images?.[0]?.url || coverImage;
+                            else if (itemEntry.item_type === 'artist') coverImage = itemEntry.details.profile_image_path || itemEntry.details.images?.[0]?.url || coverImage;
+
+                            return (
                                 <img
-                                    key={itemEntry.details._id}
+                                    key={`${itemEntry.item_type}-${itemEntry.details._id}-collapsed`}
                                     onClick={() => handlePlayLibraryItem(itemEntry)}
-                                    src={itemEntry.details.cover_image || itemEntry.details.cover_image_path || itemEntry.details.profile_image_path || "/SonifyIcon.png"}
-                                    alt={itemEntry.details.title || itemEntry.details.name}
-                                    title={itemEntry.details.title || itemEntry.details.name}
+                                    src={coverImage}
+                                    alt={title}
+                                    title={title}
                                 />
-                            )
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             )}
         </div>
     );
 }
-// --- END OF FILE Aside.jsx ---

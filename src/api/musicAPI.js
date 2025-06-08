@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const backendOrigin = "https://sonify-backend.onrender.com"; //refactored
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -13,7 +14,6 @@ const getFullStreamUrl = (playbackUrl) => {
   if (playbackUrl.startsWith("http://") || playbackUrl.startsWith("https://")) {
     return playbackUrl;
   }
-  const backendOrigin = "https://sonify-backend.onrender.com";
   try {
     if (playbackUrl.startsWith("/api/v1/music/stream/")) {
       return `${backendOrigin}${playbackUrl}`;
@@ -246,7 +246,7 @@ const MusicAPI = {
       return response.data;
     } catch (error) {
       console.error(
-        "MusicAPI listNewMusic error:",
+        "MusicAPI listUserMusic error:", // Corrected error message context
         error.response ? error.response.data : error.message
       );
       throw error.response
@@ -265,7 +265,7 @@ const MusicAPI = {
       if (authToken) {
         config.headers = { Authorization: `Bearer ${authToken}` };
       }else if(!authToken){
-        throw new Error("Need token to list user music")
+        throw new Error("Need token to list all music") // Corrected error message
       }
       const response = await apiClient.get("/list-music", config);
       return response.data;
@@ -301,7 +301,37 @@ const MusicAPI = {
         ? error.response.data
         : new Error("Failed to change music detail");
     }
-  }
+  },
+  listRecentMusic: async ({ page = 1, limit = 10 } = {}, authToken) => {
+    if (!authToken) {
+      console.warn("Auth token is required to fetch recent music.");
+      throw new Error("Authentication token is required.");
+    }
+    try {
+      const config = { 
+        params: { page, limit },
+        headers: { Authorization: `Bearer ${authToken}` } 
+      };
+      
+      const response = await apiClient.get("/list/recent", config);
+      
+      if (response.data && response.data.data) {
+        response.data.data = response.data.data.map((track) => ({
+          ...track,
+          fullPlaybackUrl: getFullStreamUrl(track.playbackUrl),
+        }));
+      }
+      return response.data;
+    } catch (error) {
+      console.error(
+        "MusicAPI listRecentMusic error:",
+        error.response ? error.response.data : error.message
+      );
+      throw error.response
+        ? error.response.data
+        : new Error("Failed to fetch recent music");
+    }
+  },
 };
 
 export default MusicAPI;
