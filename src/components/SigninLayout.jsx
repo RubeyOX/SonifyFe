@@ -3,9 +3,9 @@ import { Navigate, Outlet } from 'react-router'
 import { useAuth } from '../utils/AuthenticationUtils'
 
 export default function SigninLayout() {
-  const {token}=useAuth()
+  const {token,user}=useAuth()
   let isAuth=false
-  if(token){
+  if(token || user){
     isAuth=true
   }else{
     isAuth=false

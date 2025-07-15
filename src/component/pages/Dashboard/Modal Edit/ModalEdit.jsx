@@ -134,7 +134,7 @@ export default function ModalEdit({ data, openclose }) {
                                 <>
                                     <td><input id='username' type="text" value={dataUser.username} onChange={onChangeData} /></td>
                                     <td><input id='email' type="text" value={dataUser.email} onChange={onChangeData} readOnly /></td>
-                                    <td>{dataUser.is_email_verified ? <CloseIcon /> : <CheckIcon />}</td>
+                                    <td>{dataUser.is_email_verified ? <CheckIcon /> : <CloseIcon />}</td>
                                     <td className='choose-container' onClick={() => changeStatusList('role')}><span>{dataUser.role}</span>
                                         {listOpen.role ? (
                                             <div className="choose-list">

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
+const API_BASE_URL = "http://localhost:3000/api/v1/music";
 const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
 const backendOrigin = "https://sonify-backend.onrender.com"; //refactored
 
@@ -230,13 +230,13 @@ const MusicAPI = {
     }
   },
   listUserMusic: async ({
-    limit = 10,
-    offset = 0,
+    limit,
+    offset,
     sortBy,
     sortOrder = "desc",
-  }={},authToken) => {
+  }={},authToken,signal) => {
     try {
-      const config = { params: { limit, offset, sortBy, sortOrder } };
+      const config = { params: { limit, offset, sortBy, sortOrder },signal };
       if (authToken) {
         config.headers = { Authorization: `Bearer ${authToken}` };
       }else if(!authToken){
@@ -259,9 +259,9 @@ const MusicAPI = {
     offset = 0,
     sortBy,
     sortOrder='desc'
-  }={},authToken)=>{
+  }={},authToken,signal)=>{
     try{
-      const config = { params: { limit, offset, sortBy, sortOrder } };
+      const config = { params: { limit, offset, sortBy, sortOrder },signal };
       if (authToken) {
         config.headers = { Authorization: `Bearer ${authToken}` };
       }else if(!authToken){

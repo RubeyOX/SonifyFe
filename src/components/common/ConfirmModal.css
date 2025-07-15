@@ -1,0 +1,19 @@
+.confirm-modal-layout{
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.7);
+}
+.confirm-modal-container{
+    max-width: 320px;
+    min-width: 120px;
+    background-color: var(--dark-black-background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.confirm-modal-container .select-section{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}

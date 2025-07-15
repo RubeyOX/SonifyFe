@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/users";
+const API_BASE_URL = "http://localhost:3000/api/v1/users";
+// const API_BASE_URL = "https://sonify-backend.onrender.com/api/v1/users";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -9,10 +10,10 @@ const apiClient = axios.create({
 const userAPI = {
   listUser: async (
     { page = 1, limit = 10, sortBy, sortOrder = "desc" },
-    authToken
+    authToken,signal
   ) => {
     try {
-      const config = { params: { page, limit, sortBy, sortOrder } };
+      const config = { params: { page, limit, sortBy, sortOrder },signal };
       if (!authToken) {
         throw new Error("Need token to list user");
       }
