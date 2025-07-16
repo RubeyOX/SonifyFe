@@ -1,0 +1,11 @@
+.DataLoading-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+}

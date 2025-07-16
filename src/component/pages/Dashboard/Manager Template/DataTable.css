@@ -1,27 +1,112 @@
-.data-list-container{
+.data-list-wrapper{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-table{
-    width: 100%;
-    border-collapse: collapse;
+.data-list-container {
+    padding: 1rem;
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
 }
 
-table thead tr{
-    background-color: #111218;
-    height: 35px;
-    font-size: 13px;
+/* Table Base */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    color: #e0e0e0;
+    font-size: 14px;
 }
-table tbody tr{
-    height: 35px;
+
+/* Table Head */
+thead {
+    background-color: #29293d;
+}
+
+thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    border-bottom: 2px solid #444;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);;
 }
-table tbody tr td{
-    border-right: 1px solid rgba(255, 255, 255, 0.6);
+
+/* Table Rows */
+tbody tr {
+    transition: background-color 0.2s ease-in-out;
+    border-bottom: 1px solid #333;
 }
-table tbody .setting{
+
+tbody tr:hover {
+    background-color: #2b2b45;
+}
+
+/* Table Cells */
+td {
+    padding: 10px 16px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Icon cell (last column) */
+td.setting {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px 16px; /* giống td thông thường */
     cursor: pointer;
 }
-table tbody .setting:hover{
+
+
+
+
+td.setting:hover {
     color: var(--purple-color);
+}
+
+/* Alternate row background */
+tbody tr:nth-child(even) {
+    background-color: #24243b;
+}
+
+/* Responsive icon sizing (optional) */
+td svg {
+    font-size: 20px;
+}
+
+.data-list-wrapper .pagination{
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.data-list-wrapper .pagination button, .data-list-wrapper .pagination span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    aspect-ratio: 1/1;
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+.data-list-wrapper .pagination button:hover{
+    background-color: var(--pink-color);
+}
+.data-list-wrapper .pagination span{
+    background-color: var(--purple-color);
+}
+.data-list-wrapper .pagination button svg{
+    font-size: 14px;
+
 }

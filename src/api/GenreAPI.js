@@ -1,7 +1,7 @@
 // --- START OF FILE genreAPI.js ---
 import axios from 'axios';
 
-const API_BASE_URL = 'https://sonify-backend.onrender.com/api/v1/genres';
+const API_BASE_URL = 'https://sonifybe.onrender.com/api/v1/genres';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,

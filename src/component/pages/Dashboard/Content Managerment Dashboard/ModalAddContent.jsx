@@ -3,7 +3,7 @@ import './ModalAddContent.css'
 import MusicAPI from '../../../../api/musicAPI';
 import { useAuth } from '../../../../utils/AuthenticationUtils';
 import GenreAPI from '../../../../api/GenreAPI';
-import SmallLoading from '../../../../components/common/SmallLoading';
+import DataLoading from '../../../../components/common/DataLoading';
 export default function ModalAddContent({ openclose }) {
     const { token } = useAuth()
     const [tagsModal, setTagsModal] = useState(false)
@@ -100,7 +100,7 @@ export default function ModalAddContent({ openclose }) {
         e.preventDefault()
         try {
             setIsLoading(true)
-            const response = await MusicAPI.uploadMusic(dataContent, token)
+            await MusicAPI.uploadMusic(dataContent, token)
             openclose()
             alert('success')
             setIsLoading(false)
@@ -121,7 +121,7 @@ export default function ModalAddContent({ openclose }) {
 
     return (
         <div className='modal-addcontent-layout'>
-            {isLoading ? <SmallLoading/> : ''}
+            {isLoading ? <DataLoading/> : ''}
             <span onClick={openclose} className="exit">X</span>
             <form onSubmit={uploadMusic} className='modal-addcontent-container'>
                 <div className="flex-modal">

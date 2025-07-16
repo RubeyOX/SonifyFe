@@ -15,6 +15,7 @@ const ForgotPass = lazy(() => import('./components/auth/Forgotpass'))
 const NotFound = lazy(() => import("./components/common/NotFound"))
 const VerifyEmailPortal = lazy(() => import("./components/auth/verifyEmailPortal"))
 const Dashboard = lazy(() => import('./component/pages/Dashboard/Dashboard'))
+const DashboardLayout = lazy(() => import('./components/DashboardLayout'))
 const Router = createBrowserRouter([
   {
     path: '/',
@@ -38,13 +39,22 @@ const Router = createBrowserRouter([
         )
       },
       {
-        path: '/dashboard',
         element: (
           <Suspense fallback={<Loading />}>
-            <Dashboard />
+            <DashboardLayout />
           </Suspense>
-        )
-      }
+        ),
+        children: [
+          {
+            path: '/dashboard',
+            element: (
+              <Suspense fallback={<Loading />}>
+                <Dashboard />
+              </Suspense>
+            )
+          }
+        ]
+      },
     ],
   }, {
     path: '/',

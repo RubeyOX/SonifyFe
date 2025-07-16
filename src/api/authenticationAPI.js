@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = 'https://sonify-backend.onrender.com/api/v1/auth';
+// const baseUrl = 'http://localhost:3000/api/v1/auth';
+const baseUrl = 'https://sonifybe.onrender.com/api/v1/auth';
 
 const authUrls = {
     signup: `${baseUrl}/signup`,

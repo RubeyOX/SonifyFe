@@ -1,0 +1,18 @@
+import React from 'react'
+import { Navigate, Outlet } from 'react-router'
+import { useAuth } from '../utils/AuthenticationUtils'
+import Loading from './common/Loading'
+
+export default function DashboardLayout() {
+    let isAuth=false
+    const {token,user,isLoading}=useAuth()
+    if(!token || user?.role=='user'){
+        isAuth=false
+    }else{
+        isAuth=true
+    }
+    if(isLoading){
+        return <Loading/>
+    }
+  return isAuth ? <Outlet/> : <Navigate to='/home'/>
+}

@@ -1,7 +1,8 @@
 // --- START OF FILE libraryAPI.js ---
 import axios from 'axios';
 
-const API_BASE_URL = 'https://sonify-backend.onrender.com/api/v1/library';
+// const API_BASE_URL = 'https://sonify-backend.onrender.com/api/v1/library';
+const API_BASE_URL = 'https://sonifybe.onrender.com/api/v1/library';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,

@@ -10,32 +10,27 @@ import Loading from '../../../components/common/Loading'
 export const ThemeContext = createContext()
 export default function Dashboard() {
   const navigate = useNavigate()
-  const [styleContent, setStyleContent] = useState(<HomeDashboard/>)
+  const [styleContent, setStyleContent] = useState(<HomeDashboard />)
   const [tableTags, setTableTags] = useState([])
-  const [typeName,setTypeName]=useState('')
-  const { token, user ,isLoading,setToken} = useAuth()
+  const [typeName, setTypeName] = useState('')
+  const { token, user, isLoading } = useAuth()
   useEffect(() => {
     if (!token) {
       return null
-    }else if (!user){
-      setToken(token)
     }
     if (!token || token === 'null') {
       navigate('/login');
       return;
     }
-    if (user?.role == 'user') {
-      navigate('/home')
-    }
-  }, [token,user])
-
-  if(isLoading){
-    return(
-      <Loading/>
+  }, [token, user])
+  // console.log(token)
+  if (isLoading || !user) {
+    return (
+      <Loading />
     )
   }
   return (
-    <ThemeContext.Provider value={{ styleContent, setStyleContent, tableTags, setTableTags ,typeName,setTypeName}}>
+    <ThemeContext.Provider value={{ styleContent, setStyleContent, tableTags, setTableTags, typeName, setTypeName }}>
       <div className='dashboard-container'>
         <div className="asidedb-container">
           <Aside_Dashboard userType={user} />

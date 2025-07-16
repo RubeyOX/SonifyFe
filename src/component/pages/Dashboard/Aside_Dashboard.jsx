@@ -11,7 +11,7 @@ export default function Aside_Dashboard({ userType }) {
   return (
     <div className="asidedb-layout">
       <div className="asidedb-logo">
-        <img onClick={()=>navigate('/home')} src="/Sonify-logo.png" alt="logo" />
+        <img onClick={()=>navigate('/home')} src="/Sonify-logo.png" alt="logo" loading='lazy'/>
         <p className="user-name">{userType?.role == "admin" ? "Admin" : userType?.username}</p>
       </div>
       {userType?.role == 'admin' ?
