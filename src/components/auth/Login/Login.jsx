@@ -16,7 +16,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessageDisplay, setErrorMessageDisplay] = useState(false);
-
+  const [isLoading,setIsLoading]=(false)
   const login = async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -27,12 +27,13 @@ export default function Login() {
     setEmailError(false);
     setPasswordError(false);
     setErrorMessageDisplay(false);
-
+    setIsLoading(true)
     try {
       let Response = await authApi.login(loginPacket);
       console.log("Response: ", Response);
       setToken(Response.data.token);
       console.log("Login success.");
+      setIsLoading(false)
       navigate("/");
     } catch (e) {
       console.log("Error: ", e);
@@ -42,16 +43,19 @@ export default function Login() {
             setEmailError(true);
             setErrorMessage("Fields can't be empty.");
           setErrorMessageDisplay(true);
+          setIsLoading(false)
           } else if (err?.field == "password") {
             setPasswordError(true);
             setErrorMessage("Fields can't be empty.");
             setErrorMessageDisplay(true);
+            setIsLoading(false)
           }
         });
       } else {
         if (e.message == "Invalid credentials.") {
           setErrorMessage("Please check your email & password");
           setErrorMessageDisplay(true);
+          setIsLoading(false)
         }
       }
     }

@@ -19,11 +19,9 @@ export default function Header({ onSearch }) { // Receive onSearch prop from Hom
     const searchInputRef = useRef(null);
 
     const { setToken: setAuthContextToken, token: authToken } = useAuth(); // Renamed to avoid conflict
-
     const changeStatusFind = (status) => {
         setExpandFind(prevStatus => prevStatus === status ? '' : status);
     };
-
     const handleLogout = async () => {
         try {
             // No need to call API here if useAuth handles token removal & redirect
@@ -111,7 +109,7 @@ export default function Header({ onSearch }) { // Receive onSearch prop from Hom
                                 <p onClick={() => { /*navigate('/support')*/ }}>Support</p>
                                 <p onClick={() => { /*navigate('/settings')*/ }}>Settings</p>
                                 <div className="line"></div>
-                                <p onClick={handleLogout}>Log Out</p>
+                                {authToken ? <p onClick={handleLogout}>Log Out</p> : <p onClick={handleLogout}>Log In</p> }
                             </div>
                         </div>
                     </div>

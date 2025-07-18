@@ -42,6 +42,7 @@ export default function Homepage() {
     const [currentSearchQuery, setCurrentSearchQuery] = useState("");
 
     const [isPageLoading, setIsPageLoading] = useState(true);
+    const [isLoading, setIsLoading] =useState(fasle)
 
     const [userLibraryMusicIds, setUserLibraryMusicIds] = useState(new Set());
     const [userLibraryAlbumIds, setUserLibraryAlbumIds] = useState(new Set());
@@ -143,12 +144,11 @@ export default function Homepage() {
                 setUserLibraryArtistIds(new Set());
                 setIsPageLoading(false);
                 console.log("No auth token, cleared data and library IDs");
-                return;
             }
             setIsPageLoading(true);
-
+            
             await fetchUserLibraryData(); 
-
+            
             try {
                 const [newMusicRes, recentMusicRes] = await Promise.allSettled([
                     MusicAPI.listNewMusic({ limit: 12 }, authToken),
@@ -247,17 +247,17 @@ export default function Homepage() {
         
     ];
 
-    console.log("--- HOMEPAGE RENDER STATE ---");
-    console.log("isPageLoading:", isPageLoading);
-    console.log("authToken:", !!authToken); // Check if authToken is present
-    console.log("currentSearchQuery:", `"${currentSearchQuery}"`); // See if it's an empty string or has value
-    console.log("searchResults:", searchResults);
-    console.log("isLoadingSearch:", isLoadingSearch);
-    console.log("newReleases length:", newReleases.length, newReleases[0] ? newReleases[0] : "No first item");
-    console.log("topTrendingMusic length:", topTrendingMusic.length);
-    console.log("madeForYou length:", madeForYou.length);
-    console.log("recentlyPlayed length:", recentlyPlayed.length, recentlyPlayed[0] ? recentlyPlayed[0] : "No first item");
-    console.log("--- END HOMEPAGE RENDER STATE ---");
+    // console.log("--- HOMEPAGE RENDER STATE ---");
+    // console.log("isPageLoading:", isPageLoading);
+    // console.log("authToken:", !!authToken); // Check if authToken is present
+    // console.log("currentSearchQuery:", `"${currentSearchQuery}"`); // See if it's an empty string or has value
+    // console.log("searchResults:", searchResults);
+    // console.log("isLoadingSearch:", isLoadingSearch);
+    // console.log("newReleases length:", newReleases.length, newReleases[0] ? newReleases[0] : "No first item");
+    // console.log("topTrendingMusic length:", topTrendingMusic.length);
+    // console.log("madeForYou length:", madeForYou.length);
+    // console.log("recentlyPlayed length:", recentlyPlayed.length, recentlyPlayed[0] ? recentlyPlayed[0] : "No first item");
+    // console.log("--- END HOMEPAGE RENDER STATE ---");
 
     const renderMusicCarousel = (title, items, sectionKeyForItemType = 'music') => {
         if (isPageLoading && items.length === 0 && !currentSearchQuery) {
