@@ -26,6 +26,7 @@ import MusicItem from "../../Items/MusicItem";
 import AlbumItem from "../../Items/AlbumItem";
 import ArtistItem from "../../Items/ArtistItem";
 import ContextMenu from "../../ContextMenu/ContextMenu.jsx";
+import DataLoading from "../../common/DataLoading.jsx"
 
 export default function Homepage() {
     const musicPlayer = useMusicPlayer();
@@ -42,7 +43,7 @@ export default function Homepage() {
     const [currentSearchQuery, setCurrentSearchQuery] = useState("");
 
     const [isPageLoading, setIsPageLoading] = useState(true);
-    const [isLoading, setIsLoading] =useState(fasle)
+    const [isLoading, setIsLoading] =useState(false)
 
     const [userLibraryMusicIds, setUserLibraryMusicIds] = useState(new Set());
     const [userLibraryAlbumIds, setUserLibraryAlbumIds] = useState(new Set());
@@ -134,6 +135,7 @@ export default function Homepage() {
 
     useEffect(() => {
         const fetchPageData = async () => {
+            setIsLoading(true)
             if (!authToken) {
                 setNewReleases([]); 
                 setTopTrendingMusic([]); 
@@ -143,7 +145,7 @@ export default function Homepage() {
                 setUserLibraryAlbumIds(new Set());
                 setUserLibraryArtistIds(new Set());
                 setIsPageLoading(false);
-                console.log("No auth token, cleared data and library IDs");
+                // console.log("No auth token, cleared data and library IDs");
             }
             setIsPageLoading(true);
             
@@ -164,30 +166,35 @@ export default function Homepage() {
                     const sortedTrending = [...musicData].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
                     setTopTrendingMusic(sortedTrending.slice(0, 12));
                     setMadeForYou([...musicData].sort(() => 0.5 - Math.random()).slice(0, 6));
+                    setIsLoading(false)
                 } else {
                     console.warn("Failed to fetch new releases:", newMusicRes.reason || newMusicRes.value?.message);
                     console.warn("Is fetched successfully? :", newMusicRes);
                     setNewReleases([]); 
                     setTopTrendingMusic([]); 
                     setMadeForYou([]);
+                    setIsLoading(false)
                 }
 
                 if (recentMusicRes.status === "fulfilled" && recentMusicRes.value) {
                     setRecentlyPlayed(recentMusicRes.value.data || []);
                     console.log("Recently played loaded successfully.")
+                    setIsLoading(false)
                 } else {
                     console.warn("Failed to fetch recently played music:", recentMusicRes.reason || recentMusicRes.value?.message);
                     setRecentlyPlayed([]);
+                    setIsLoading(false)
                 }
                 
             } catch (error) {
-                console.error("Error fetching homepage section data:", error);
+                // console.error("Error fetching homepage section data:", error);
                 setNewReleases([]); 
                 setTopTrendingMusic([]); 
                 setMadeForYou([]); 
                 setRecentlyPlayed([]);
             } finally {
                 setIsPageLoading(false);
+                setIsLoading(false)
             }
         };
         fetchPageData();
@@ -366,6 +373,7 @@ export default function Homepage() {
                     />
                 </div>
                 <div className="main-content">
+                    {isLoading ? <DataLoading/> : ''}
                     {currentSearchQuery && searchResults !== null ? (
                         renderSearchResults()
                     ) : (
