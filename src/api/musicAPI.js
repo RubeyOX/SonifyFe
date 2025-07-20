@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000/api/v1/music";
-// const API_BASE_URL = "https://sonifybe.onrender.com/api/v1/music";
+// const API_BASE_URL = "http://localhost:3000/api/v1/music";
+const API_BASE_URL = "https://sonifybe.onrender.com/api/v1/music";
 const STREAM_BASE_URL = "https://sonifybe.onrender.com/api/v1/music";
 const backendOrigin = "https://sonifybe.onrender.com"; //refactored
 // const STREAM_BASE_URL = "https://sonify-backend.onrender.com/api/v1/music";
