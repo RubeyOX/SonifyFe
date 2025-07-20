@@ -10,7 +10,7 @@ import useMusicPlayer from "../../hooks/useMusicPlayer";
 import MusicAPI from "../../../api/musicAPI.js";
 import LibraryAPI from "../../../api/libraryAPI.js";
 import FeaturesAPI from "../../../api/featuresAPI.js";
-
+import { lazy } from "react";
 
 import Header from "./Header";
 import Aside from "./Aside";
@@ -22,9 +22,9 @@ import RecentlyBlock from "../../Recently/RecentlyBlock";
 import SuggestionWrapper from "../../Suggestion/SuggestionWrapper";
 import SuggestionBlock from "../../Suggestion/SuggestionBlock";
 import ItemCarousel from "../../ItemCarousel/ItemCarousel";
-import MusicItem from "../../Items/MusicItem";
+const MusicItem = lazy(()=>import("../../Items/MusicItem"));
 import AlbumItem from "../../Items/AlbumItem";
-import ArtistItem from "../../Items/ArtistItem";
+const ArtistItem = lazy(()=>import("../../Items/ArtistItem"));
 import ContextMenu from "../../ContextMenu/ContextMenu.jsx";
 import DataLoading from "../../common/DataLoading.jsx"
 
@@ -166,24 +166,20 @@ export default function Homepage() {
                     const sortedTrending = [...musicData].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
                     setTopTrendingMusic(sortedTrending.slice(0, 12));
                     setMadeForYou([...musicData].sort(() => 0.5 - Math.random()).slice(0, 6));
-                    setIsLoading(false)
                 } else {
                     console.warn("Failed to fetch new releases:", newMusicRes.reason || newMusicRes.value?.message);
                     console.warn("Is fetched successfully? :", newMusicRes);
                     setNewReleases([]); 
                     setTopTrendingMusic([]); 
                     setMadeForYou([]);
-                    setIsLoading(false)
                 }
 
                 if (recentMusicRes.status === "fulfilled" && recentMusicRes.value) {
                     setRecentlyPlayed(recentMusicRes.value.data || []);
                     console.log("Recently played loaded successfully.")
-                    setIsLoading(false)
                 } else {
                     console.warn("Failed to fetch recently played music:", recentMusicRes.reason || recentMusicRes.value?.message);
                     setRecentlyPlayed([]);
-                    setIsLoading(false)
                 }
                 
             } catch (error) {
