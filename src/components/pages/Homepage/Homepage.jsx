@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useNavigate } from 'react-router-dom';
-
 import "./Homepage.css";
 import { useAuth } from "../../../utils/AuthenticationUtils";
 import useMusicPlayer from "../../hooks/useMusicPlayer";
@@ -22,11 +21,11 @@ import RecentlyBlock from "../../Recently/RecentlyBlock";
 import SuggestionWrapper from "../../Suggestion/SuggestionWrapper";
 import SuggestionBlock from "../../Suggestion/SuggestionBlock";
 import ItemCarousel from "../../ItemCarousel/ItemCarousel";
-const MusicItem = lazy(()=>import("../../Items/MusicItem"));
+const MusicItem = lazy(() => import("../../Items/MusicItem"));
 import AlbumItem from "../../Items/AlbumItem";
-const ArtistItem = lazy(()=>import("../../Items/ArtistItem"));
+const ArtistItem = lazy(() => import("../../Items/ArtistItem"));
 import ContextMenu from "../../ContextMenu/ContextMenu.jsx";
-import DataLoading from "../../common/DataLoading.jsx"
+import SkeletionItem from "../../common/SkeletionItem.jsx";
 
 export default function Homepage() {
     const musicPlayer = useMusicPlayer();
@@ -43,7 +42,6 @@ export default function Homepage() {
     const [currentSearchQuery, setCurrentSearchQuery] = useState("");
 
     const [isPageLoading, setIsPageLoading] = useState(true);
-    const [isLoading, setIsLoading] =useState(false)
 
     const [userLibraryMusicIds, setUserLibraryMusicIds] = useState(new Set());
     const [userLibraryAlbumIds, setUserLibraryAlbumIds] = useState(new Set());
@@ -88,19 +86,19 @@ export default function Homepage() {
                 LibraryAPI.listLibraryItems({ item_type: 'artist', limit: libraryLimit }, authToken),
             ]);
 
-            if (musicLibRes.status === 'fulfilled' ) {
+            if (musicLibRes.status === 'fulfilled') {
                 setUserLibraryMusicIds(new Set((musicLibRes.value.data?.items || []).map(i => i.item_id)));
             } else if (musicLibRes.status === 'rejected') {
                 console.warn("Failed to fetch music library IDs:", musicLibRes.reason || musicLibRes.value?.message);
             }
 
-            if (albumLibRes.status === 'fulfilled' ) {
+            if (albumLibRes.status === 'fulfilled') {
                 setUserLibraryAlbumIds(new Set((albumLibRes.value.data?.items || []).map(i => i.item_id)));
             } else if (albumLibRes.status === 'rejected') {
                 console.warn("Failed to fetch album library IDs:", albumLibRes.reason || albumLibRes.value?.message);
             }
 
-            if (artistLibRes.status === 'fulfilled' ) {
+            if (artistLibRes.status === 'fulfilled') {
                 setUserLibraryArtistIds(new Set((artistLibRes.value.data?.items || []).map(i => i.item_id)));
             } else if (artistLibRes.status === 'rejected') {
                 console.warn("Failed to fetch artist library IDs:", artistLibRes.reason || artistLibRes.value?.message);
@@ -117,11 +115,11 @@ export default function Homepage() {
         try {
             if (currentlyInLibrary) {
                 const res = await LibraryAPI.removeItemFromLibrary({ item_id: item._id, item_type: itemType }, authToken);
-                 if(res.success) updateLocalLibraryState(itemType, item._id, false);
+                if (res.success) updateLocalLibraryState(itemType, item._id, false);
                 console.log(`${itemType} '${item.title || item.name}' removed from library.`);
             } else {
                 const res = await LibraryAPI.addItemToLibrary({ item_id: item._id, item_type: itemType }, authToken);
-                if(res.success) updateLocalLibraryState(itemType, item._id, true);
+                if (res.success) updateLocalLibraryState(itemType, item._id, true);
                 console.log(`${itemType} '${item.title || item.name}' added to library.`);
             }
         } catch (error) {
@@ -135,11 +133,10 @@ export default function Homepage() {
 
     useEffect(() => {
         const fetchPageData = async () => {
-            setIsLoading(true)
             if (!authToken) {
-                setNewReleases([]); 
-                setTopTrendingMusic([]); 
-                setMadeForYou([]); 
+                setNewReleases([]);
+                setTopTrendingMusic([]);
+                setMadeForYou([]);
                 setRecentlyPlayed([]); // Clear recently played
                 setUserLibraryMusicIds(new Set());
                 setUserLibraryAlbumIds(new Set());
@@ -148,16 +145,16 @@ export default function Homepage() {
                 // console.log("No auth token, cleared data and library IDs");
             }
             setIsPageLoading(true);
-            
-            await fetchUserLibraryData(); 
-            
+
+            await fetchUserLibraryData();
+
             try {
                 const [newMusicRes, recentMusicRes] = await Promise.allSettled([
                     MusicAPI.listNewMusic({ limit: 12 }, authToken),
-                    MusicAPI.listRecentMusic({ limit: 6 }, authToken) 
+                    MusicAPI.listRecentMusic({ limit: 6 }, authToken)
                 ]);
 
-                
+
                 console.log("Recent Music Response:", recentMusicRes);
 
                 if (newMusicRes.status === "fulfilled" && newMusicRes.value) {
@@ -169,8 +166,8 @@ export default function Homepage() {
                 } else {
                     console.warn("Failed to fetch new releases:", newMusicRes.reason || newMusicRes.value?.message);
                     console.warn("Is fetched successfully? :", newMusicRes);
-                    setNewReleases([]); 
-                    setTopTrendingMusic([]); 
+                    setNewReleases([]);
+                    setTopTrendingMusic([]);
                     setMadeForYou([]);
                 }
 
@@ -181,20 +178,19 @@ export default function Homepage() {
                     console.warn("Failed to fetch recently played music:", recentMusicRes.reason || recentMusicRes.value?.message);
                     setRecentlyPlayed([]);
                 }
-                
+
             } catch (error) {
                 // console.error("Error fetching homepage section data:", error);
-                setNewReleases([]); 
-                setTopTrendingMusic([]); 
-                setMadeForYou([]); 
+                setNewReleases([]);
+                setTopTrendingMusic([]);
+                setMadeForYou([]);
                 setRecentlyPlayed([]);
             } finally {
                 setIsPageLoading(false);
-                setIsLoading(false)
             }
         };
         fetchPageData();
-    }, [authToken, fetchUserLibraryData]); 
+    }, [authToken, fetchUserLibraryData]);
 
     const handleSearch = useCallback(async (query) => {
         if (!query || query.trim() === "") {
@@ -247,9 +243,8 @@ export default function Homepage() {
             action: handleToggleLibrary
         },
         { label: "Toggle Favorite", action: (item, itemType) => handleToggleFavorite(item, itemType) },
-        
-    ];
 
+    ];
     // console.log("--- HOMEPAGE RENDER STATE ---");
     // console.log("isPageLoading:", isPageLoading);
     // console.log("authToken:", !!authToken); // Check if authToken is present
@@ -264,7 +259,7 @@ export default function Homepage() {
 
     const renderMusicCarousel = (title, items, sectionKeyForItemType = 'music') => {
         if (isPageLoading && items.length === 0 && !currentSearchQuery) {
-            return <div className="trending-container" key={title}><p className="loading-text">Loading {title.toLowerCase()}...</p></div>;
+            return <div className="trending-container" key={title}><SkeletionItem /></div>;
         }
         if (!items || items.length === 0) {
             return null;
@@ -279,7 +274,7 @@ export default function Homepage() {
                     {items.map((item) => (
                         <MusicItem
                             key={`${sectionKeyForItemType}-${item._id}`}
-                            item={item} 
+                            item={item}
                             onPlayClick={() => musicPlayer.setTrackAndPlay(item)}
                             onAddToLibraryClick={handleToggleLibrary}
                             onContextMenuOpen={(event, contextItem = item) => musicPlayer.openContextMenu(event, contextItem, contextMenuActions, sectionKeyForItemType)}
@@ -290,7 +285,7 @@ export default function Homepage() {
             </div>
         );
     };
-    
+
 
     const renderSearchResults = () => {
         if (isLoadingSearch) return <div className="search-results-container"><p className="loading-text">Searching...</p></div>;
@@ -355,7 +350,7 @@ export default function Homepage() {
             </div>
         );
     };
-
+    console.log(isPageLoading)
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="homepage-container">
@@ -369,7 +364,6 @@ export default function Homepage() {
                     />
                 </div>
                 <div className="main-content">
-                    {isLoading ? <DataLoading/> : ''}
                     {currentSearchQuery && searchResults !== null ? (
                         renderSearchResults()
                     ) : (
@@ -381,7 +375,7 @@ export default function Homepage() {
                                         <RecentlyBlock
                                             id={item._id}
                                             key={`recent-${item._id}`}
-                                            musicCover={item.cover_image }
+                                            musicCover={item.cover_image}
                                             name={item.title}
                                             playingRecently={musicPlayer.currentTrack?._id}
                                             onPlayClick={() => musicPlayer.setTrackAndPlay(item)}
@@ -390,8 +384,7 @@ export default function Homepage() {
                                     ))}
                                 </RecentlyWrapper>
                             )}
-
-                            <SuggestionWrapper
+                            {!isPageLoading && <SuggestionWrapper
                                 suggestionBlock={
                                     <SuggestionBlock
                                         artistName={"Quyếch"} title={"Lời nhắn"}
@@ -401,9 +394,10 @@ export default function Homepage() {
                                     />
                                 }
                                 suggestionSlider={renderMusicCarousel("Made For You", madeForYou, "made-for-you-music")}
-                            />
+                            />}
 
                             {renderMusicCarousel("New Releases", newReleases, "music")}
+
                             {renderMusicCarousel("Top Trending", topTrendingMusic, "music")}
                         </>
                     )}
