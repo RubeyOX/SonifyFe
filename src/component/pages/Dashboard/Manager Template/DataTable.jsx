@@ -58,23 +58,22 @@ export default function DataTable() {
                 let keyName = Object.keys(dataContent[0])
                 const filterData = response.data.map(item => pickKeys(item, keyName))
                 setDataContent(filterData)
-                setIsLoading(false)
             } else if (typeName == 'content' && user?.role == 'admin') {
                 const response = await MusicAPI.listMusic({ limit: 10, offset, sortBy, sortOrder }, token, signal)
                 let keyName = Object.keys(dataContent[0])
                 setCurrentPage((pre) => ({ ...pre, maxPage: response.maxPage }))
                 const filterData = response.data.map(item => pickKeys(item, keyName))
                 setDataContent(filterData)
-                setIsLoading(false)
             } else if (typeName == 'user') {
                 const response = await userAPI.listUser({ limit: 10, offset, sortBy, sortOrder }, token, signal)
                 let keyName = Object.keys(dataUser[0])
                 const filterData = response.map(item => pickKeys(item, keyName))
                 setDataUser(filterData)
-                setIsLoading(false)
             }
         } catch (err) {
             console.error(err)
+        }finally{
+            setIsLoading(false)
         }
     }
     useEffect(() => {
@@ -116,7 +115,8 @@ export default function DataTable() {
     }
     return (
         <div className="data-list-wrapper">
-            {isLoading ? <DataLoading /> :
+            {dataContent.id || dataUser ? <p>There no content</p> :
+            isLoading ? <DataLoading /> :
                 <>
                     <div className='data-list-container'>
                         <table>

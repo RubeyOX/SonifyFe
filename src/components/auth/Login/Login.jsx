@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../utils/AuthenticationUtils";
 import authApi from "../../../api/authenticationAPI";
 import ErrorIcon from '@mui/icons-material/Error';
+import Loading from "../../common/Loading";
 export default function Login() {
   const navigate = useNavigate();
   const {
@@ -16,7 +17,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessageDisplay, setErrorMessageDisplay] = useState(false);
-  const [isLoading,setIsLoading]=(false)
+  const [isLoading,setIsLoading]=useState (false)
   const login = async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -30,9 +31,9 @@ export default function Login() {
     setIsLoading(true)
     try {
       let Response = await authApi.login(loginPacket);
-      console.log("Response: ", Response);
+      // console.log("Response: ", Response);
       setToken(Response.data.token);
-      console.log("Login success.");
+      // console.log("Login success.");
       setIsLoading(false)
       navigate("/");
     } catch (e) {
@@ -62,6 +63,7 @@ export default function Login() {
   };
   return (
     <div className="login-layout">
+      {isLoading && <Loading/>}
       <div className="login-container">
         <img src="/Sonify-logo.png" alt="logo" />
         <h1>Login to continue</h1>
