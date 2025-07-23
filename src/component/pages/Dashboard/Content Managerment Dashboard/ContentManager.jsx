@@ -6,8 +6,9 @@ import './ContentManager.css'
 import ModalAddContent from './ModalAddContent';
 import DataTable from '../Manager Template/DataTable'
 import { ThemeContext } from '../Dashboard';
-export default function ContentManager() {
+export default function ContentManager({guest}) {
   const {setTableTags,setTypeName}=useContext(ThemeContext)
+  console.log(guest)
   useEffect(()=>{
     setTableTags(['Content Type', 'Name', 'Genre', 'Status', 'Created at', 'Actions'])
     setTypeName('content')

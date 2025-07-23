@@ -22,23 +22,24 @@ export default function DataTable() {
         maxPage: 0
     })
     const { tableTags, typeName } = useContext(ThemeContext)
-    const [dataContent, setDataContent] = useState([{
+    const [dataContent, setDataContent] = useState([])
+    const contentTemplate = {
         _id: '',
         content_type: '',
         title: '',
         genre: [],
         is_deleted: false,
         created_at: ''
-    }])
-
-    const [dataUser, setDataUser] = useState([{
+      };
+      const [dataUser, setDataUser] = useState([])
+      const userTemplate={
         _id: '',
         username: '',
         email: '',
         is_email_verified: false,
         role: '',
         createdAt: ''
-    }])
+      }
     const pickKeys = (obj, tagsKey) => {
         return tagsKey.reduce((value, key) => {
             value[key] = key in obj ? obj[key] : ''
@@ -55,18 +56,19 @@ export default function DataTable() {
         try {
             if (typeName == 'content' && user?.role == 'artist') {
                 const response = await MusicAPI.listUserMusic({ limit: 10, offset, sortBy, sortOrder }, token, signal)
-                let keyName = Object.keys(dataContent[0])
+                let keyName = Object.keys(contentTemplate)
                 const filterData = response.data.map(item => pickKeys(item, keyName))
                 setDataContent(filterData)
             } else if (typeName == 'content' && user?.role == 'admin') {
                 const response = await MusicAPI.listMusic({ limit: 10, offset, sortBy, sortOrder }, token, signal)
-                let keyName = Object.keys(dataContent[0])
+                let keyName = Object.keys(contentTemplate)
+                // let keyName = Object.keys(dataContent[0])
                 setCurrentPage((pre) => ({ ...pre, maxPage: response.maxPage }))
                 const filterData = response.data.map(item => pickKeys(item, keyName))
                 setDataContent(filterData)
             } else if (typeName == 'user') {
                 const response = await userAPI.listUser({ limit: 10, offset, sortBy, sortOrder }, token, signal)
-                let keyName = Object.keys(dataUser[0])
+                let keyName = Object.keys(userTemplate)
                 const filterData = response.map(item => pickKeys(item, keyName))
                 setDataUser(filterData)
             }
@@ -113,9 +115,14 @@ export default function DataTable() {
                 break;
         }
     }
+    if(!user){
+        return(
+            <p>Login required to view data</p>
+        )
+    }
     return (
         <div className="data-list-wrapper">
-            {dataContent.id || dataUser ? <p>There no content</p> :
+            {dataContent || dataUser ? <p>There no content</p> :
             isLoading ? <DataLoading /> :
                 <>
                     <div className='data-list-container'>

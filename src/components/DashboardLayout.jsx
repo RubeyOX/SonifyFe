@@ -4,14 +4,14 @@ import { useAuth } from '../utils/AuthenticationUtils'
 import Loading from './common/Loading'
 
 export default function DashboardLayout() {
-    let isAuth=false
+    let isAuth=true
     const {token,user,isLoading}=useAuth()
     // if(!token || user?.role=='user'){
-    if(!token){
-        isAuth=false
-    }else{
-        isAuth=true
-    }
+    // if(!token){
+    //     isAuth=false
+    // }else{
+    //     isAuth=true
+    // }
     if(isLoading){
         return <Loading/>
     }

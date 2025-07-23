@@ -16,19 +16,19 @@ export default function Dashboard() {
   const { token, user, isLoading } = useAuth()
   useEffect(() => {
     if (!token) {
-      return null
+      // return null
     }
     if (!token || token === 'null') {
-      navigate('/login');
-      return;
+      // navigate('/login');
+      // return;
     }
   }, [token, user])
   // console.log(token)
-  if (isLoading || !user) {
-    return (
-      <Loading />
-    )
-  }
+  // if (isLoading || !user) {
+  //   return (
+  //     <Loading />
+  //   )
+  // }
   return (
     <ThemeContext.Provider value={{ styleContent, setStyleContent, tableTags, setTableTags, typeName, setTypeName }}>
       <div className='dashboard-container'>

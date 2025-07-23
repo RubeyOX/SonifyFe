@@ -6,30 +6,43 @@ import HomeDashboard from './Home Dashboard/HomeDashboard'
 import UserManager from './User Manager Dashboard/UserManager'
 import { useNavigate } from 'react-router'
 export default function Aside_Dashboard({ userType }) {
-  const {setStyleContent}=useContext(ThemeContext)
-  const navigate=useNavigate()
+  const { setStyleContent } = useContext(ThemeContext)
+  const navigate = useNavigate()
+  // console.log(userType)
   return (
     <div className="asidedb-layout">
       <div className="asidedb-logo">
-        <img onClick={()=>navigate('/home')} src="/Sonify-logo.png" alt="logo" loading='lazy'/>
-        <p className="user-name">{userType?.role == "admin" ? "Admin" : userType?.username}</p>
+        <img onClick={() => navigate('/home')} src="/Sonify-logo.png" alt="logo" loading='lazy' />
+        <p className="user-name">{userType?.role == "admin" ? "Admin" : userType?.role == 'user' ? userType?.username : 'Guest'}</p>
       </div>
       {userType?.role == 'admin' ?
         <div className="aisdedb-navigation-list">
-          <p onClick={()=>setStyleContent(<HomeDashboard userType={userType}/>)}>Home</p>
-          <p onClick={()=>setStyleContent(<UserManager/>)}>Users Managerment</p>
-          <p onClick={()=>setStyleContent(<ContentManager/>)}>Contents Managerment</p>
-          <p onClick={()=>setStyleContent()}>Community Managerment</p>
-          <p onClick={()=>setStyleContent()}>Streaming Resources Managerment</p>
-          <p onClick={()=>setStyleContent()}>Paid partnership Managerment</p>
-          <p onClick={()=>setStyleContent()}>Reports Managerment</p>
-          <p onClick={()=>setStyleContent()}>Nofication center</p>
-          <p onClick={()=>setStyleContent()}>Sever health</p>
-        </div> :
-        <div className="aisdedb-navigation-list">
-          <p onClick={()=>setStyleContent(<HomeDashboard/>)}>Home</p>
-          <p onClick={()=>setStyleContent(<ContentManager/>)}>Contents Managerment</p>
-        </div>}
+          <p onClick={() => setStyleContent(<HomeDashboard userType={userType} />)}>Home</p>
+          <p onClick={() => setStyleContent(<UserManager />)}>Users Managerment</p>
+          <p onClick={() => setStyleContent(<ContentManager guest={false}/>)}>Contents Managerment</p>
+          <p onClick={() => setStyleContent()}>Community Managerment</p>
+          <p onClick={() => setStyleContent()}>Streaming Resources Managerment</p>
+          <p onClick={() => setStyleContent()}>Paid partnership Managerment</p>
+          <p onClick={() => setStyleContent()}>Reports Managerment</p>
+          <p onClick={() => setStyleContent()}>Nofication center</p>
+          <p onClick={() => setStyleContent()}>Sever health</p>
+        </div> : userType?.role == 'user' ?
+          <div className="aisdedb-navigation-list">
+            <p onClick={() => setStyleContent(<HomeDashboard />)}>Home</p>
+            <p onClick={() => setStyleContent(<ContentManager />)}>Contents Managerment</p>
+          </div> :
+          <div className="aisdedb-navigation-list">
+            <p onClick={() => setStyleContent(<HomeDashboard userType={userType} />)}>Home</p>
+            <p onClick={() => setStyleContent(<UserManager />)}>Users Managerment</p>
+            <p onClick={() => setStyleContent(<ContentManager />)}>Contents Managerment</p>
+            <p onClick={() => setStyleContent()}>Community Managerment</p>
+            <p onClick={() => setStyleContent()}>Streaming Resources Managerment</p>
+            <p onClick={() => setStyleContent()}>Paid partnership Managerment</p>
+            <p onClick={() => setStyleContent()}>Reports Managerment</p>
+            <p onClick={() => setStyleContent()}>Nofication center</p>
+            <p onClick={() => setStyleContent()}>Sever health</p>
+          </div>
+      }
     </div>
   )
 }
